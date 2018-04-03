@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Inputs:</h3>
+    <form name="inst" action="{{ url_for('institute') }}" method='POST'>
+        <ul class="form-style-1">
+            <li>
+                <label>Institue Name:</label>
+                <select name="institute" class="field-select">
+                    {% for inst in institute_data %}
+                        <option value="{{inst}}">{{inst}}</option>
+                    {% endfor %}        
+                </select>
+            </li>
+            <li>
+                <label>Location:</label>
+                <select name="location" class="field-select">
+                    {% for loc in locations %}
+                        <option value="{{loc}}">{{loc}}</option>
+                    {% endfor %} 
+                </select>
+            </li>
+            <li>
+                <label>Year:</label>
+                <select name="year" class="field-select">
+                    {% for year in years %}
+                        <option value={{year}}>{{year}}</option>
+                    {% endfor %}  
+                </select>
+            </li>
+            <li>
+                <input type="submit" value="Submit" />
+            </li>
+        </ul>
+    </form>
+    {% if result %}
+        <hr>
+        <h3>Results:</h3>
+        {% for row in result %}
+            <h5>{{row.crime_table}}:</h5>
+            <table>
+                <tr>
+                    <th>Branch</th>
+                    <th>Count</th>
+                </tr>
+                {% for branch in row.crime_data %}
+                    <tr>
+                        <td>{{branch}}</td>
+                        <td>{{row.crime_data[branch]}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
