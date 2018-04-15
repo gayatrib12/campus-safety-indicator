@@ -1,5 +1,327 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Trends</h3>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='../static/js/Chart.min.js'></script>
+
+
+
+    <h3 >
+
+        <h4>Select Crime Type: </h4>
+        <form id="crimeform" action="/trends" method="post">
+            <li id = "category">
+                <label>Category Type:</label>
+                <select id="catdd" name="cat_type_input" class="field-select" >
+                    <option value="CRIMINAL" selected="selected">Criminal Offences</option>
+                    <option value="HATE">Hate Crimes</option>
+                    <option value="VAWA">VAWA Offences</option>
+                    <option value="ARREST">Arrests</option>
+                    <option value="DISCIPLINARY_ACTION">Disciplinary Actions</option>
+                </select>
+            </li>
+            <li id = "criminal" class="line-block">
+                <label>Criminal Offence Type:</label>
+                <select name="crime_type_input" class="field-select" >
+                    <option value="ALL" selected="selected">All</option>
+                    <option value="MURDER">Murder</option>
+                    <option value="NEGLIGENT_MANSLAUGHTER">Negligent Manslaugher</option>
+                    <option value="FORCIBLE_SEX">Forcible Sex</option>
+                    <option value="NONFORCIBLE_SEX">Non Forcible Sex</option>
+                    <option value="ROBBERY">Robbery</option>
+                    <option value="AGGRAVATED_ASSAULTS">Aggravated Assaults</option>
+                    <option value="BURGLARY">Burglary</option>
+                    <option value="MOTOR_VEHICLE_THEFT">Motor Vehicle Theft</option>
+                    <option value="ARSON">Arson</option>
+                </select>
+            </li>
+            <li id = "hate" class="line-block">
+                <label>Hate Crime Type:</label>
+                <select name="hate_type_input" class="field-select" >
+                    <option value="ALL" selected="selected">All</option>
+                    <option value="MURDER">Murder</option>
+                    <option value="FORCIBLE_SEX">Forcible Sex</option>
+                    <option value="NONFORCIBLE_SEX">Non Forcible Sex</option>
+                    <option value="ROBBERY">Robbery</option>
+                    <option value="AGGRAVATED_ASSAULTS">Aggravated Assaults</option>
+                    <option value="BURGLARY">Burglary</option>
+                    <option value="MOTOR_VEHICLE_THEFT">Motor Vehicle Theft</option>
+                    <option value="ARSON">Arson</option>
+                    <option value="VANDALISM">Vandalism</option>
+                    <option value="INTIMIDATION">Intimidation</option>
+                    <option value="SIMPLE_ASSAULT">Simple Assault</option>
+                    <option value="LARCENY">Larceny</option>
+                </select>
+            </li>
+
+            <li id = "vawa" class="line-block">
+                <label>VAWA Offence Type:</label>
+                <select name="vawa_type_input" class="field-select" >
+                    <option value="ALL" selected="selected">All</option>
+                    <option value="DOMENTIC_VIOLENCE">Domestic Violence</option>
+                    <option value="DATING_VIOLENCE">Dating Violence</option>
+                    <option value="STALKING">Stalking</option>
+                </select>
+            </li>
+
+            <li id = "arrest" class="line-block">
+                <label>Arrest Type:</label>
+                <select name="arrest_type_input" class="field-select" >
+                    <option value="ALL" selected="selected">All</option>
+                    <option value="WEAPONS">Weapons</option>
+                    <option value="DRUGS">Drugs</option>
+                    <option value="LIQUOR">Liquor</option>
+                </select>
+            </li>
+
+            <li id = "disciplinary_action" class="line-block">
+                <label>Disciplinary Action Type:</label>
+                <select name="da_type_input" class="field-select" >
+                    <option value="ALL" selected="selected">All</option>
+                    <option value="WEAPONS">Weapons</option>
+                    <option value="DRUGS">Drugs</option>
+                    <option value="LIQUOR">Liquor</option>
+                </select>
+            </li>
+
+            <li id = "filter" >
+                <label>Filter By:</label>
+                <select id="filterdd" name="filter_input" class="field-select" >
+                    <option value="0" selected="selected">Choose</option>
+                    <option value="SECTOR">Sector Of Institution</option>
+                    <option value="LEVEL">Level Of Institution</option>
+                    <option value="CONTROL">Control Of Institution</option>
+                    <option value="LOCATION">Clery Geography</option>
+                    <option value="STATE">State</option>
+                </select>
+            </li>
+
+            <li id = "sector" class="input_area">
+                <label>Sector of Institution:</label>
+                    <input type="checkbox" name="sector" value="1">Public, 4-year or above</input>
+                    <input type="checkbox" name="sector" value="2">Private non-profit, 4-year or above</input>
+                    <input type="checkbox" name="sector" value="3">Private for-profit , 4-year or above</input>
+                    <input type="checkbox" name="sector" value="4">Public, 2-year</input>
+                    <input type="checkbox" name="sector" value="5">Private non-profit, 2-year</input>
+                    <input type="checkbox" name="sector" value="6">Private for-profit, 2-year</input>
+                    <input type="checkbox" name="sector" value="7">Public, less-than-2-year</input>
+                    <input type="checkbox" name="sector" value="8">Private non-profit, less-than-2-year</input>
+                    <input type="checkbox" name="sector" value="9">Private for-profit, less-than-2-year</input>
+                    <input type="checkbox" name="sector" value="10">Administrative Unit Only</input>
+
+            </li>
+
+            <li id = "level" class="input_area">
+                <label>Level of Institution:</label>
+                    <input type="checkbox" name="level" value="1,2,3">4-years or above</input>
+                    <input type="checkbox" name="level" value="4,5,6">2-4 years</input>
+                    <input type="checkbox" name="level" value="7,8,9">less-than-2-years</input>
+            </li>
+
+            <li id = "control" class="input_area">
+                <label>Control of Institution:</label>
+                    <input type="checkbox" name="control" value="1,4,7">Public</input>
+                    <input type="checkbox" name="control" value="2,5,8">Private non-profit</input>
+                    <input type="checkbox" name="control" value="3,6,9">Private for-profit</input>
+            </li>
+
+            <li id = "location" class="input_area">
+                <label>Clery Geography:</label>
+                    <input type="checkbox" name="clerygeography" value="oncampus">On Campus</input>
+                    <input type="checkbox" name="clerygeography" value="noncampus">Non Campus</input>
+                    <input type="checkbox" name="clerygeography" value="publicproperty">Public Property</input>
+                    <input type="checkbox" name="clerygeography" value="reported">Reported by Local Police</input>
+            </li>
+
+            <li id = "state" class="input_area">
+                <label>State:</label>
+                <select name="state_input">
+                    <option name="state" value="ALL" selected="selected">All</option>
+                    <option name="state" value="AL">Alabama</option>
+                    <option name="state" value="AK">Alaska</option>
+                    <option name="state" value="AZ">Arizona</option>
+                    <option name="state" value="AR">Arkansas</option>
+                    <option name="state" value="CA">California</option>
+                    <option name="state" value="CO">Colorado</option>
+                    <option name="state" value="CT">Connecticut</option>
+                    <option name="state" value="DE">Delaware</option>
+                    <option name="state" value="DC">District Of Columbia</option>
+                    <option name="state" value="FL">Florida</option>
+                    <option name="state" value="GA">Georgia</option>
+                    <option name="state" value="HI">Hawaii</option>
+                    <option name="state" value="ID">Idaho</option>
+                    <option name="state" value="IL">Illinois</option>
+                    <option name="state" value="IN">Indiana</option>
+                    <option name="state" value="IA">Iowa</option>
+                    <option name="state" value="KS">Kansas</option>
+                    <option name="state" value="KY">Kentucky</option>
+                    <option name="state" value="LA">Louisiana</option>
+                    <option name="state" value="ME">Maine</option>
+                    <option name="state" value="MD">Maryland</option>
+                    <option name="state" value="MA">Massachusetts</option>
+                    <option name="state" value="MI">Michigan</option>
+                    <option name="state" value="MN">Minnesota</option>
+                    <option name="state" value="MS">Mississippi</option>
+                    <option name="state" value="MO">Missouri</option>
+                    <option name="state" value="MT">Montana</option>
+                    <option name="state" value="NE">Nebraska</option>
+                    <option name="state" value="NV">Nevada</option>
+                    <option name="state" value="NH">New Hampshire</option>
+                    <option name="state" value="NJ">New Jersey</option>
+                    <option name="state" value="NM">New Mexico</option>
+                    <option name="state" value="NY">New York</option>
+                    <option name="state" value="NC">North Carolina</option>
+                    <option name="state" value="ND">North Dakota</option>
+                    <option name="state" value="OH">Ohio</option>
+                    <option name="state" value="OK">Oklahoma</option>
+                    <option name="state" value="OR">Oregon</option>
+                    <option name="state" value="PA">Pennsylvania</option>
+                    <option name="state" value="RI">Rhode Island</option>
+                    <option name="state" value="SC">South Carolina</option>
+                    <option name="state" value="SD">South Dakota</option>
+                    <option name="state" value="TN">Tennessee</option>
+                    <option name="state" value="TX">Texas</option>
+                    <option name="state" value="UT">Utah</option>
+                    <option name="state" value="VT">Vermont</option>
+                    <option name="state" value="VA">Virginia</option>
+                    <option name="state" value="WA">Washington</option>
+                    <option name="state" value="WV">West Virginia</option>
+                    <option name="state" value="WI">Wisconsin</option>
+                    <option name="state" value="WY">Wyoming</option>
+                </select>
+            </li>
+
+            <li>
+                <button type="submit">Submit</button>
+            </li>
+        </form>
+    </h3>
+
+    <script>
+
+        $(document).ready(function() {
+
+            $('.line-block').hide().filter("#criminal").show();
+            $('.input_area').hide();
+            $('#myChart').hide();
+
+            $('#catdd').change(function() {
+                var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
+                console.log(selectedId);
+                if (selectedId != 'all')
+                    $('.line-block').hide().filter('#' + selectedId).show();
+                else
+                    $('.line-block').show();
+            });
+
+            $('#filterdd').change(function() {
+                var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
+                console.log(selectedId);
+                if (selectedId != 'choose')
+                    $('.input_area').hide().filter('#' + selectedId).show();
+                else
+                    $('.input_area').hide();
+            });
+        });
+
+        $("#crimeform").submit(function(e) {
+            e.preventDefault();
+            var request = $("#crimeform").serialize();
+            console.log(request);
+            var years = [];
+            var counts = [];
+            var graph_title;
+            var legend;
+            $('#myChart').show();
+            $.ajax({
+                url: '/trends',
+                type: 'POST',
+                data: request,
+                success: function(json){
+                    console.log(json);
+                    years = json["years"];
+                    counts = json["counts"];
+                    graph_title = json["graph_title"];
+                    legend = json["legend"];
+
+                    var options = {
+                        responsive: false,
+                        {#legend: {
+                            position: 'bottom',
+                        },#}
+                        hover: {
+                            mode: 'label'
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Year'
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 10
+                                }
+                            }]
+                        },
+                        title: {
+                            display: true,
+                            text: graph_title
+                        }
+                    }
+
+                    // define the chart data
+                    var chartData = {
+                        labels : years,
+                        datasets : [{
+                            label: legend,
+                            fill: true,
+                            lineTension: 0.1,
+                            backgroundColor: "rgba(75,192,192,0.4)",
+                            borderColor: "rgba(75,192,192,1)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "rgba(75,192,192,1)",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data : counts,
+                            spanGaps: false
+                        }]
+                    }
+
+                    // get chart canvas
+                    var ctx = document.getElementById("myChart").getContext("2d");
+
+                    // create the chart using the chart canvas
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: options
+                    });
+                },
+                error : function(e) {
+                    alert("Error!");
+                    console.log("ERROR: ", e);
+                }
+            });
+        });
+
+    </script>
+
+    <!-- bar chart canvas element -->
+    <canvas id="myChart" width="600" height="400" style="background-color:white;"></canvas>
+
 {% endblock %}
