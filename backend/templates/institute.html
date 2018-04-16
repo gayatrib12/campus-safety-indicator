@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <h3>Inputs:</h3>
     <form name="inst" action="{{ url_for('institute') }}" method='POST'>
         <ul class="form-style-1">
@@ -8,7 +9,7 @@
                 <label>Institue Name:</label>
                 <select name="institute" class="field-select">
                     {% for inst in institute_data %}
-                        <option value="{{inst}}">{{inst}}</option>
+                        <option width="200" value="{{inst}}">{{inst}}</option>
                     {% endfor %}        
                 </select>
             </li>
@@ -33,23 +34,170 @@
             </li>
         </ul>
     </form>
-    {% if result %}
-        <hr>
-        <h3>Results:</h3>
-        {% for row in result %}
-            <h5>{{row.crime_table}}:</h5>
-            <table>
-                <tr>
-                    <th>Branch</th>
-                    <th>Count</th>
-                </tr>
-                {% for branch in row.crime_data %}
-                    <tr>
-                        <td>{{branch}}</td>
-                        <td>{{row.crime_data[branch]}}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+    <!--{% if result %}-->
+        <!--<hr>-->
+        <!--<h3>Results:</h3>-->
+        <!--{% for row in result %}-->
+            <!--<h5>{{row.crime_table}}:</h5>-->
+            <!--<table>-->
+                <!--<tr>-->
+                    <!--<th>Branch</th>-->
+                    <!--<th>Count</th>-->
+                <!--</tr>-->
+                <!--{% for branch in row.crime_data %}-->
+                    <!--<tr>-->
+                        <!--<td>{{branch}}</td>-->
+                        <!--<td>{{row.crime_data[branch]}}</td>-->
+                    <!--</tr>-->
+                <!--{% endfor %}-->
+            <!--</table>-->
+        <!--{% endfor %}-->
+    <!--{% endif %}-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <style>https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css</style>
+    <script src='static/Chart.min.js'></script>
+
+    <style>
+        div {
+            display:inline-block;
+        }
+        p {
+            padding-right: 30px;
+            padding-left: 50px;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1></h1><!-- bar chart canvas element -->
+<div class="container main" style="margin-top: 3%;">
+    <div class="container main-info">
+
+        <div>
+            <canvas id="chart_arrest" width="200" height="200" ></canvas>
+            <p>Arrest</p>
+        </div>
+
+
+        <div>
+            <canvas id="chart_vawa" width="200" height="200" ></canvas>
+            <p>Violence Against Women</p>
+        </div>
+
+        <div>
+            <canvas id="chart_disc" width="200" height="200" ></canvas>
+            <p>Disciplinary Action</p>
+        </div>
+
+        <div>
+            <canvas id="chart_criminal" width="200" height="200" ></canvas>
+            <p id="criminal">Criminal</p>
+        </div>
+
+        <div>
+            <canvas id="chart_hate" width="200" height="200"></canvas>
+            <p>Hate</p>
+        </div>
+
+    </div>
+</div>
+<script>
+
+
+    var pieData_arrest = [
+        {% for item,label,colors in set_arrest %}
+        {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{colors}}"
+        },
         {% endfor %}
-    {% endif %}
+    ];
+
+    // get bar chart canvas
+    var mychart = document.getElementById("chart_arrest").getContext("2d");
+    steps = 10
+    max = 10
+    // draw pie chart
+    new Chart(document.getElementById("chart_arrest").getContext("2d")).Pie(pieData_arrest);
+
+    var pieData_vawa = [
+        {% for item,label,colors in set_vawa %}
+    {
+        value: {{item}},
+        label: "{{label}}",
+            color : "{{colors}}"
+    },
+    {% endfor %}];
+
+    // get bar chart canvas
+    var mychart = document.getElementById("chart_vawa").getContext("2d");
+    steps = 10
+    max = 10
+    // draw pie chart
+    new Chart(document.getElementById("chart_vawa").getContext("2d")).Pie(pieData_vawa);
+
+    var pieData_disc = [
+        {% for item,label,colors in set_disc %}
+    {
+        value: {{item}},
+        label: "{{label}}",
+            color : "{{colors}}"
+    },
+    {% endfor %}];
+
+    // get bar chart canvas
+    var mychart = document.getElementById("chart_disc").getContext("2d");
+    steps = 10
+    max = 10
+    // draw pie chart
+    new Chart(document.getElementById("chart_disc").getContext("2d")).Pie(pieData_disc);
+
+    var pieData_criminal = [
+        {% for item,label,colors in set_criminal %}
+    {
+        value: {{item}},
+        label: "{{label}}",
+            color : "{{colors}}"
+    },
+    {% endfor %}];
+
+    // get bar chart canvas
+    var mychart = document.getElementById("chart_criminal").getContext("2d");
+    steps = 10
+    max = 10
+    // draw pie chart
+    new Chart(document.getElementById("chart_criminal").getContext("2d")).Pie(pieData_criminal);
+
+
+    var pieData_hate = [
+        {% for item1,label1,colors1 in set_hate %}
+    {
+        value: {{item1}},
+        label: "{{label1}}",
+        color : "{{colors1}}"
+    },
+    {% endfor %}];
+
+    // get bar chart canvas
+    var mychart1 = document.getElementById("chart_hate").getContext("2d");
+    steps = 10
+    max = 10
+    // draw pie chart
+    new Chart(document.getElementById("chart_hate").getContext("2d")).Pie(pieData_hate);
+
+    $(document).ready( function() {
+
+
+    });
+
+</script>
+</body></html>
 {% endblock %}
+
