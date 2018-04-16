@@ -1,5 +1,7 @@
 all_institute_names = "select distinct(name) from institute"
 
+institute_names_like = "select distinct(name) from institute where lower(name) like '%' || lower('{query}') || '%'"
+
 institute_crime_count = """select WEAPONS + DRUGS + LIQUOR, branch
                             from {crime_table}, (
                                 select *

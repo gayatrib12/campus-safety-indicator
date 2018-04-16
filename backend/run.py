@@ -31,12 +31,21 @@ def institute():
         # result = [{"crime_table": "Arrest", "crime_data": {"Main campus": 10, "Old Campus": 0}}]
     return render_template("institute.html", title='Campus Data', institute_data=institute_data, locations=locations, years=years, result=result)
 
+@app.route('/institutelist', methods=['GET'])
+def instituteList():
+    query = request.args['query']
+    institute_data = it.get_institute_names_like(query)
+    return jsonify(institute_data)
+
+
+
 @app.route('/trends', methods=['GET', 'POST'])
 def getTrends():
     result = None
     title = 'Trends'
 
     if request.method == 'GET':
+        #institute_data = it.get_all_institute_names()
         return render_template("trends.html", title=title)
 
     elif request.method == 'POST':

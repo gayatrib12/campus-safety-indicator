@@ -4,8 +4,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='../static/js/Chart.min.js'></script>
-
-
+    <script src='../static/js/typeahead.bundle.js'></script>
+    <script src='../static/js/bloodhound.min.js'></script>
 
     <h3 >
 
@@ -94,6 +94,7 @@
                     <option value="CONTROL">Control Of Institution</option>
                     <option value="LOCATION">Clery Geography</option>
                     <option value="STATE">State</option>
+                    <option value="INSTITUTE">Institute</option>
                 </select>
             </li>
 
@@ -192,14 +193,19 @@
                 </select>
             </li>
 
+            <li id = "institute" class="input_area">
+                <label>Institue Name:</label>
+                <input class="typeahead" name="institute_input" type="text" placeholder="Type institute name ...">
+            </li>
+
             <li>
                 <button type="submit">Submit</button>
             </li>
         </form>
+
     </h3>
 
     <script>
-
         $(document).ready(function() {
 
             $('.line-block').hide().filter("#criminal").show();
@@ -313,11 +319,35 @@
                     });
                 },
                 error : function(e) {
-                    alert("Error!");
                     console.log("ERROR: ", e);
                 }
             });
         });
+
+        $('.typeahead').typeahead(null, {
+            display: 'name',
+            source: new Bloodhound({
+                datumTokenizer: function(datum) {
+                    return Bloodhound.tokenizers.whitespace(datum.value);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    wildcard: '%QUERY',
+                    url: '/institutelist?query=%QUERY',
+                    transform: function(response) {
+                        console.log(response)
+                        // Map the remote source JSON array to a JavaScript object array
+                        return $.map(response, function(item) {
+                            return {
+                                name: item
+                            };
+                        });
+                    }
+                }
+            })
+        });
+
+
 
     </script>
 
