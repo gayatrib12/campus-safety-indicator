@@ -1,0 +1,452 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form name="inst" action="{{ url_for('compare') }}" method='POST'>
+        <ul class="form-style-1">
+            <li>
+                <label>Institue Name 1:</label>
+                <select name="institute1" class="field-select">
+                    {% for inst in institute_data %}
+                        <option value="{{inst}}">{{inst}}</option>
+                    {% endfor %}        
+                </select>
+            </li>
+            <li>
+                <label>Institue Name 2:</label>
+                <select name="institute2" class="field-select">
+                    {% for inst in institute_data %}
+                        <option value="{{inst}}">{{inst}}</option>
+                    {% endfor %}        
+                </select>
+            </li>
+            <li>
+                <label>Institue Name 3:</label>
+                <select name="institute3" class="field-select">
+                    {% for inst in inst_3_data %}
+                        <option value="{{inst}}">{{inst}}</option>
+                    {% endfor %}        
+                </select>
+            </li>
+            <li>
+                <label>Year:</label>
+                <select name="year" class="field-select">
+                    {% for year in years %}
+                        <option value={{year}}>{{year}}</option>
+                    {% endfor %}  
+                </select>
+            </li>
+            <li>
+                <input type="submit" value="Submit" />
+            </li>
+        </ul>
+    </form>
+
+	
+    {% if result or disc_result or criminal_result or vawa_result or hate_result%}
+	<div style="width: 100%; overflow: hidden;">
+    	<div style="width: 600px; float: left;"> 
+    		<canvas id="canvas_arrest" width="400" height="400" style="margin:auto"></canvas> </div>
+    	<div style="margin-left: 620px;"> 
+    		<canvas id="canvas_disc_action" width="400" height="400" style="margin:auto"></canvas> </div>
+	</div>
+	<div style="width: 100%; overflow: hidden;">
+    	<div style="width: 600px; float: left;"> 
+    		<canvas id="canvas_criminal" width="400" height="400" style="margin:auto"></canvas> </div>
+    	<div style="margin-left: 620px;"> 
+    		<canvas id="canvas_criminal_2" width="400" height="400" style="margin:auto"	></canvas> </div>
+	</div>
+	<div style="width: 100%; overflow: hidden;">
+    	<div style="width: 600px; float: left;"> 
+    		<canvas id="canvas_hate" width="400" height="400" style="margin:auto"></canvas> </div>
+    	<div style="margin-left: 620px;"> 
+    		<canvas id="canvas_hate_2" width="400" height="400" style="margin:auto"	></canvas> </div>
+	</div>
+	<div style="width: 100%; overflow: hidden;">
+    	<div style="width: 600px; float: left;"> 
+    		<canvas id="canvas_vawa" width="400" height="400" style="margin:auto"></canvas> </div>
+    	<div style="margin-left: 620px;">
+    		<canvas id="canvas_vawa_2" width="400" height="400" style="margin:auto"	></canvas> </div>
+	</div>
+	{% endif %}
+
+	{% if result %}
+		<script>
+		var label_names = [];
+		{% for inst in result %}
+			label_names.push('Institute ' + {{loop.index0 + 1}})
+		{% endfor %}
+		label_names.splice(-1, 1);
+		var arrestBarChartData = {
+			labels: label_names,
+			datasets: [{
+				label: 'Weapon',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{result[-1].pairwise_data[0]}}
+			}, {
+				label: 'Drugs',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{result[-1].pairwise_data[1]}}
+			}, {
+				label: 'Liquor',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{result[-1].pairwise_data[2]}}
+			}]
+
+		};
+
+		var arrest_ctx = document.getElementById('canvas_arrest');
+			let arrestBarChart = new Chart(arrest_ctx, {
+				type: 'bar',
+				data: arrestBarChartData,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'Arrest'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+
+		</script>
+	{% endif %}
+	{% if disc_result %}
+		<script>
+			var label_names = [];
+			{% for inst in disc_result %}
+				label_names.push('Institute ' + {{loop.index0 + 1}})
+			{% endfor %}
+			label_names.splice(-1, 1);
+			var discActionBarChartData = {
+			labels: label_names,
+			datasets: [{
+				label: 'Weapon',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{disc_result[-1].pairwise_data[0]}}
+			}, {
+				label: 'Drugs',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{disc_result[-1].pairwise_data[1]}}
+			}, {
+				label: 'Liquor',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{disc_result[-1].pairwise_data[2]}}
+			}]
+
+			};
+
+			var disc_action_ctx = document.getElementById('canvas_disc_action');
+			let discACtionBarChart = new Chart(disc_action_ctx, {
+				type: 'bar',
+				data: discActionBarChartData,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'Disciplinary Action'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+		</script>
+	{% endif %}
+	{% if criminal_result %}
+		<script>
+			var label_names = [];
+			{% for inst in criminal_result %}
+				label_names.push('Institute ' + {{loop.index0 + 1}})
+			{% endfor %}
+			label_names.splice(-1, 1);
+			var criminalBarChartData = {
+			labels: label_names,
+			datasets: [{
+				label: 'Murder',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{criminal_result[-1].pairwise_data[0]}}
+			}, {
+				label: 'Negligent Manslaughter',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{criminal_result[-1].pairwise_data[1]}}
+			}, {
+				label: 'Forcible Sex',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{criminal_result[-1].pairwise_data[2]}}
+			}, {
+				label: 'Non Forcible Sex',
+				backgroundColor: 'rgba(75, 192, 192, 1)',
+				data: {{criminal_result[-1].pairwise_data[3]}}
+			}]
+
+			};
+
+			var criminalBarChartData_2 = {
+			labels: label_names,
+			datasets: [{
+				label: 'Robbery',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{criminal_result[-1].pairwise_data[4]}}
+			}, {
+				label: 'Aggravated Assualts',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{criminal_result[-1].pairwise_data[5]}}
+			}, {
+				label: 'Burglary',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{criminal_result[-1].pairwise_data[6]}}
+			}, {
+				label: 'Motoe Vehicle Theft',
+				backgroundColor: 'rgba(75, 192, 192, 1)',
+				data: {{criminal_result[-1].pairwise_data[7]}}
+			}, {
+				label: 'Arson',
+				backgroundColor: 'rgba(153, 102, 255, 1)',
+				data: {{criminal_result[-1].pairwise_data[8]}}
+			}]
+
+			};
+
+			var criminal_ctx = document.getElementById('canvas_criminal');
+			let criminalBarChart = new Chart(criminal_ctx, {
+				type: 'bar',
+				data: criminalBarChartData,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'Criminal'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+
+			var criminal_ctx_2 = document.getElementById('canvas_criminal_2');
+			let criminalBarChart_2 = new Chart(criminal_ctx_2, {
+				type: 'bar',
+				data: criminalBarChartData_2,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'Criminal'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+		</script>
+	{% endif %}
+
+	{% if hate_result %}
+		<script>
+			var label_names = [];
+			{% for inst in hate_result %}
+				label_names.push('Institute ' + {{loop.index0 + 1}})
+			{% endfor %}
+			label_names.splice(-1, 1);
+			var hateBarChartData = {
+			labels: label_names,
+			datasets: [{
+				label: 'Murder',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{hate_result[-1].pairwise_data[0]}}
+			}, {
+				label: 'Vandalism',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{hate_result[-1].pairwise_data[1]}}
+			}, {
+				label: 'Forcible Sex',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{hate_result[-1].pairwise_data[2]}}
+			}, {
+				label: 'Non Forcible Sex',
+				backgroundColor: 'rgba(75, 192, 192, 1)',
+				data: {{hate_result[-1].pairwise_data[3]}}
+			}, {
+				label: 'Robbery',
+				backgroundColor: 'rgba(153, 102, 255, 1)',
+				data: {{hate_result[-1].pairwise_data[4]}}
+			}, {
+				label: 'Aggravated Assault',
+				backgroundColor: 'rgba(255, 159, 64, 0.2)',
+				data: {{hate_result[-1].pairwise_data[5]}}
+			}]
+
+			};
+
+			var hateBarChartData_2 = {
+			labels: label_names,
+			datasets: [{
+				label: 'Burglary',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{hate_result[-1].pairwise_data[6]}}
+			}, {
+				label: 'Motoe Vehicle Theft',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{hate_result[-1].pairwise_data[7]}}
+			}, {
+				label: 'Arson',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{hate_result[-1].pairwise_data[8]}}
+			}, {
+				label: 'Intimidation',
+				backgroundColor: 'rgba(75, 192, 192, 1)',
+				data: {{hate_result[-1].pairwise_data[9]}}
+			}, {
+				label: 'Simple Assault',
+				backgroundColor: 'rgba(153, 102, 255, 1)',
+				data: {{hate_result[-1].pairwise_data[10]}}
+			}, {
+				label: 'Larceny',
+				backgroundColor: 'rgba(255, 159, 64, 0.2)',
+				data: {{hate_result[-1].pairwise_data[11]}}
+			}]
+
+			};
+
+			var hate_ctx = document.getElementById('canvas_hate');
+			let hateBarChart = new Chart(hate_ctx, {
+				type: 'bar',
+				data: hateBarChartData,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'Hate Crime'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+
+			var hate_ctx_2 = document.getElementById('canvas_hate_2');
+			let hateBarChart_2 = new Chart(hate_ctx_2, {
+				type: 'bar',
+				data: hateBarChartData_2,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'Hate Crime'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+		</script>
+	{% endif %}
+
+	{% if vawa_result %}
+		<script>
+			var label_names = [];
+			{% for inst in vawa_result %}
+				label_names.push('Institute ' + {{loop.index0 + 1}})
+			{% endfor %}
+			label_names.splice(-1, 1);
+			var vawaBarChartData = {
+			labels: label_names,
+			datasets: [{
+				label: 'Domestic Violence',
+				backgroundColor: 'rgba(255,99,132,1)',
+				data: {{vawa_result[-1].pairwise_data[0]}}
+			}, {
+				label: 'Dating Violence',
+				backgroundColor: 'rgba(54, 162, 235, 1)',
+				data: {{vawa_result[-1].pairwise_data[1]}}
+			}, {
+				label: 'Stalking',
+				backgroundColor: 'rgba(255, 206, 86, 1)',
+				data: {{vawa_result[-1].pairwise_data[2]}}
+			}]
+
+			};
+
+			var vawa_ctx = document.getElementById('canvas_vawa');
+			let vawaBarChart = new Chart(vawa_ctx, {
+				type: 'bar',
+				data: vawaBarChartData,
+				options: {
+					responsive: false,
+					title: {
+						display: true,
+						text: 'VAWA'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+		</script>
+	{% endif %}
+{% endblock %}
