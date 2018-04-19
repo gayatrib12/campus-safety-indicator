@@ -21,7 +21,7 @@ def institute():
         print(request.form)
         form_data = request.form
         institute_data = [form_data['institute']]
-        print("institute_data: {institute_data}")
+        print(f"institute_data: {institute_data}")
         years = [form_data['year']]
         locations = [form_data['location']]
         result = it.get_different_crimes_count_per_campus(form_data['institute'],
