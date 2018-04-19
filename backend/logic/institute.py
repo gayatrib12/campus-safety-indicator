@@ -14,6 +14,17 @@ def get_all_institute_names():
     institutes.sort()
     return institutes
 
+def get_institute_names_like(query):
+    institutes = []
+    rows = db.cursor.execute(db_queries.institute_names_like.format(
+        query = query
+    )).fetchall()
+    # result is like list of tuples
+    institutes = [i[0] for i in rows]
+    print(f"total number of institutes: {len(institutes)}")
+    institutes.sort()
+    return institutes
+
 def get_different_crimes_count_per_campus(inst_name, year, location):
     crime_tables = ['arrest', 'disciplinary_action']#'vawa', 'criminal']
     result = []
