@@ -8,13 +8,6 @@ app = Flask('Campus Safety Indicator')
 def index():
     return render_template("index.html")
 
-
-# @app.route("/chart")
-# def chart():
-#     labels = ["January","February","March","April","May","June","July","August"]
-#     values = [10,9,8,7,6,4,7,8]
-#     return render_template('trial.html', values=values, labels=labels)
-
 @app.route("/chart")
 def chart():
     labels = ["January","February","March","April","May","June","July","August"]
