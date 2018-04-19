@@ -8,15 +8,6 @@ app = Flask('Campus Safety Indicator')
 def index():
     return render_template("index.html")
 
-@app.route("/chart")
-def chart():
-    labels = ["January","February","March","April","May","June","July","August"]
-    values = [10,9,8,7,6,4,7,8]
-    colors = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
-    return render_template('trial.html', set=zip(values, labels, colors))
-
-
-
 @app.route('/institute', methods=['GET', 'POST'])
 def institute():
     result = None
