@@ -3,35 +3,16 @@
 <head>
     <title>Campus Safety Indicator</title>
     {% if title %}
-        <center><h1>{{ title }}</h1></center>
+    <center><h1>{{ title }}</h1></center>
     {% else %}
-        <center><h1>Campus Safety Indicator</h1></center>
+    <center><h1>Campus Safety Indicator</h1></center>
     {% endif %}
     
     <hr>
-
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
-
-
 </head>
 <body bgcolor="#C0BFBF">
-
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
     {% block content %}
     {% endblock %}
 </body>
