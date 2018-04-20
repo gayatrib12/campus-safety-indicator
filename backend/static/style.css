@@ -81,10 +81,4 @@ select{
 .form-style-1 .required{
     color:red;
 }
-div {
-    display:inline-block;
-}
-p {
-    padding-right: 30px;
-    padding-left: 50px;
-}
+
