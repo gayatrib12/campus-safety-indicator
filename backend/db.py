@@ -1,5 +1,5 @@
 import cx_Oracle
-import db_cred
+from backend import db_cred;
 
 def db_cursor():
     connection = cursor = None

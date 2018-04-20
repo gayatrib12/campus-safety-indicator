@@ -1,4 +1,3 @@
-<style type="text/css">
 .form-style-1 {
     margin:10px auto;
     max-width: 400px;
@@ -82,7 +81,7 @@ select{
 .form-style-1 .required{
     color:red;
 }
-
+/*Below is for us graph page*/
 .state{
     fill: none;
     stroke: #a9a9a9;
@@ -129,4 +128,3 @@ select{
 #tooltip tr td:nth-child(2){
     text-align:center;
 }
-</style>

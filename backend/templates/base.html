@@ -3,16 +3,19 @@
 <head>
     <title>Campus Safety Indicator</title>
     {% if title %}
-        <center><h1>{{ title }}</h1></center>
+    <center><h1>{{ title }}</h1></center>
     {% else %}
-        <center><h1>Campus Safety Indicator</h1></center>
+    <center><h1>Campus Safety Indicator</h1></center>
     {% endif %}
     
     <hr>
+
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body bgcolor="#C0BFBF">
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='chart.min.js')}}"></script>
     {% block content %}
     {% endblock %}
 </body>
