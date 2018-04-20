@@ -269,8 +269,12 @@
                             yAxes: [{
                                 display: true,
                                 ticks: {
-                                    beginAtZero: true,
-                                    steps: 10
+                                    beginAtZero: false,
+                                    steps: 10,
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Count'
                                 }
                             }]
                         },
@@ -315,7 +319,7 @@
                         myChart.destroy();
                     }
                     myChart = new Chart(ctx, {
-                        type: 'bar',
+                        type: 'line',
                         data: chartData,
                         options: options
                     });
