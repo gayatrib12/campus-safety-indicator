@@ -112,7 +112,7 @@ def generateFilterString(filter_input, form_data):
             return cond + filter_input + " = '" + [form_data['state_input']][0]+"'"
 
     elif filter_input == 'INSTITUTE':
-        if [form_data['institute_input']][0] == 'ALL':
+        if not [form_data['institute_input']][0]:
             return ''
         else:
             return cond + "I.NAME" + " = '" + [form_data['institute_input']][0]+"'"
