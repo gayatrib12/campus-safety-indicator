@@ -111,7 +111,7 @@ def instituteList():
 
 
 @app.route('/trends', methods=['GET', 'POST'])
-def getTrends():
+def trends():
     result = None
     title = 'Trends'
 
