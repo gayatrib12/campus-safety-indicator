@@ -16,17 +16,18 @@
         var sampleData ={}; /* Sample random data. */
         var incoming_data = JSON.parse('{{result | tojson}}'); 
         console.log(incoming_data);
-        // ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
-        // "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
-        // "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
-        // "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
-        // "WI", "MO", "AR", "OK", "KS", "LS", "VA"]
-        incoming_data.forEach(function(d){
-                var crime=Math.round(100*Math.random());
+        ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
+        "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
+        "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
+        "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
+        "WI", "MO", "AR", "OK", "KS", "LS", "VA"].forEach(function(d){
+                console.log(incoming_data[d]);
+                var crime=incoming_data[d];
                 console.log(d);
                 console.log(crime);
+                console.log({{max_count}})
                 //console.log(d);
-                sampleData[d]={crime:crime, color:d3.interpolate("#ffffcc", "#800026")(crime/100)};
+                sampleData[d]={crime:crime, color:d3.interpolate("#ffffcc", "#800026")(crime / 100)};
             });
         //     .forEach(function(d){ 
         //         var low=Math.round(100*Math.random()), 

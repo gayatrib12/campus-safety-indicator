@@ -1,3 +1,5 @@
+import math
+
 from backend import db
 from backend.logic import  db_queries
 
@@ -74,4 +76,25 @@ def get_arrest_state_rank():
 def get_state_geographical_data():
     rows = db.cursor.execute(db_queries.arrest_state_rank).fetchall()
     # TODO:- convert crime count back to row[2]
-    return [{"id": row[0], "rank": row[1], "count": row[1]}for row in rows if row[0] in map_state_list]
+    result = {}
+    # get min max values:
+    max_count = min_count = rows[0][2]
+    # added logic to get min and max to convert the range into 0,100
+    for row in rows:
+        if row[2] > max_count:
+            max_count = row[2]
+        if row[2] < min_count:
+            min_count = row[2]
+
+    new_high = 100
+    new_low = 0
+
+    for row in rows:
+        if row[0] in map_state_list:
+            #result.append({"id": row[0], "count": row[2]})
+            # generating new value based on 0,100 range
+            computed_value = ((row[2] - min_count) / (max_count - min_count)) * (new_high - new_low) + new_low
+            result.update({row[0]: math.ceil(computed_value)})
+            if max_count < row[2]:
+                max_count = row[2]
+    return result, max_count
