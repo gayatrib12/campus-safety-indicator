@@ -1,4 +1,4 @@
-from flask import Flask, Response, request, render_template, redirect
+from flask import Flask, Response, request, render_template, redirect, jsonify
 from backend.logic import institute as it
 from backend.logic import rankings as rk
 from backend.logic import geographical as geo
@@ -55,7 +55,9 @@ def ranking():
 
 @app.route('/geographical', methods=['GET', 'POST'])
 def geographical():
-    return render_template("geographical.html")
+    result = geo.get_state_geographical_data()
+    print(f"result: {len(result)}")
+    return render_template("geographical.html", result=result)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

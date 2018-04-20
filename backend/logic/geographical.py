@@ -22,7 +22,7 @@ states = {
         'IN': 'Indiana',
         'KS': 'Kansas',
         'KY': 'Kentucky',
-        'LA': 'Louisiana',
+        'LS': 'Louisiana',
         'MA': 'Massachusetts',
         'MD': 'Maryland',
         'ME': 'Maine',
@@ -61,6 +61,17 @@ states = {
         'WY': 'Wyoming'
 }
 
+map_state_list = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
+    "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
+    "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
+    "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN",
+    "WI", "MO", "AR", "OK", "KS", "LS", "VA"]
+
 def get_arrest_state_rank():
     rows = db.cursor.execute(db_queries.arrest_state_rank).fetchall()
     return [{"element": states[row[0]], "rank": row[1], "count": row[2]}for row in rows if states.get(row[0])]
+
+def get_state_geographical_data():
+    rows = db.cursor.execute(db_queries.arrest_state_rank).fetchall()
+    # TODO:- convert crime count back to row[2]
+    return [{"id": row[0], "rank": row[1], "count": row[1]}for row in rows if row[0] in map_state_list]
