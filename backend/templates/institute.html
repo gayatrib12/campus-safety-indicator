@@ -53,28 +53,6 @@
             <!--</table>-->
         <!--{% endfor %}-->
     <!--{% endif %}-->
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <style>https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css</style>
-    <script src='static/Chart.min.js'></script>
-
-    <style>
-        div {
-            display:inline-block;
-        }
-        p {
-            padding-right: 30px;
-            padding-left: 50px;
-        }
-
-
-    </style>
-</head>
-<body>
 <h1></h1><!-- bar chart canvas element -->
 <div class="container main" style="margin-top: 3%;">
     <div class="container main-info">
@@ -193,6 +171,4 @@
     new Chart(document.getElementById("chart_hate").getContext("2d")).Pie(pieData_hate);
 
 </script>
-</body></html>
 {% endblock %}
-
