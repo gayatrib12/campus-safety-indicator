@@ -34,25 +34,6 @@
             </li>
         </ul>
     </form>
-    <!--{% if result %}-->
-        <!--<hr>-->
-        <!--<h3>Results:</h3>-->
-        <!--{% for row in result %}-->
-            <!--<h5>{{row.crime_table}}:</h5>-->
-            <!--<table>-->
-                <!--<tr>-->
-                    <!--<th>Branch</th>-->
-                    <!--<th>Count</th>-->
-                <!--</tr>-->
-                <!--{% for branch in row.crime_data %}-->
-                    <!--<tr>-->
-                        <!--<td>{{branch}}</td>-->
-                        <!--<td>{{row.crime_data[branch]}}</td>-->
-                    <!--</tr>-->
-                <!--{% endfor %}-->
-            <!--</table>-->
-        <!--{% endfor %}-->
-    <!--{% endif %}-->
 
 
 <!DOCTYPE html>
@@ -60,16 +41,14 @@
 <head>
     <meta charset="utf-8" />
     <style>https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css</style>
-    <script src='static/Chart.min.js'></script>
+    <!--<script src='static/Chart.min.js'></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
     <style>
         div {
             display:inline-block;
         }
-        p {
-            padding-right: 30px;
-            padding-left: 50px;
-        }
+
 
 
     </style>
@@ -81,28 +60,22 @@
 
         <div>
             <canvas id="chart_arrest" width="200" height="200" ></canvas>
-            <p>Arrest</p>
-        </div>
-
-
-        <div>
-            <canvas id="chart_vawa" width="200" height="200" ></canvas>
-            <p>Violence Against Women</p>
         </div>
 
         <div>
             <canvas id="chart_disc" width="200" height="200" ></canvas>
-            <p>Disciplinary Action</p>
         </div>
 
         <div>
             <canvas id="chart_criminal" width="200" height="200" ></canvas>
-            <p id="criminal">Criminal</p>
         </div>
 
         <div>
             <canvas id="chart_hate" width="200" height="200"></canvas>
-            <p>Hate</p>
+        </div>
+
+        <div>
+            <canvas id="chart_vawa" width="200" height="200" ></canvas>
         </div>
 
     </div>
@@ -110,87 +83,143 @@
 <script>
 
 
-    var pieData_arrest = [
-        {% for item,label,colors in set_arrest %}
-        {
-            value: {{item}},
-            label: "{{label}}",
-            color : "{{colors}}"
+    // get bar chart canvas
+
+    var mychartHate = document.getElementById("chart_hate");
+    var myPieChartHate = new Chart(mychartHate,{
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {{set_hate}},
+        backgroundColor: [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC", "#F7464A", "#46BFBD", "#FDB45C", "#F7464A", "#46BFBD"  ]
+    }],
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: ["Murder","Forcible Sex","Nonforcible Sex","Robbery","Aggravated Assaults","Burglary","Motor Vehicle Theft", "Arson", "Vandalism", "Intimidation",
+        "Simple Assault", "Larceny"],
+    },
+    options: {
+        legend: {
+            display: false
         },
-        {% endfor %}
-    ];
+        title:{
+            display:true,
+                text: 'Hate'
+        },
+        elements: {
+            arc: {
+                borderWidth: 0
+            }
+        }
+    }
+    });
 
-    // get bar chart canvas
-    var mychart = document.getElementById("chart_arrest").getContext("2d");
-    steps = 10
-    max = 10
-    // draw pie chart
-    new Chart(document.getElementById("chart_arrest").getContext("2d")).Pie(pieData_arrest);
-
-    var pieData_vawa = [
-        {% for item,label,colors in set_vawa %}
-    {
-        value: {{item}},
-        label: "{{label}}",
-            color : "{{colors}}"
+    var mychartCriminal = document.getElementById("chart_criminal");
+    var myPieChartCriminal = new Chart(mychartCriminal,{
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {{set_criminal}},
+        backgroundColor: [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
+    }],
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: ["Murder","Negligent Manslaughter","Forcible Sex","Nonforcible Sex","Robbery","Aggravated Assaults","Burglary","Motor Vehicle Theft", "Arson"]
     },
-    {% endfor %}];
+    options: {
+        legend: {
+            display: false
+        },
+        title:{
+            display:true,
+                text: 'Criminal'
+        },
+        elements: {
+            arc: {
+                borderWidth: 0
+            }
+        }
+    }
+    });
 
-    // get bar chart canvas
-    var mychart = document.getElementById("chart_vawa").getContext("2d");
-    steps = 10
-    max = 10
-    // draw pie chart
-    new Chart(document.getElementById("chart_vawa").getContext("2d")).Pie(pieData_vawa);
-
-    var pieData_disc = [
-        {% for item,label,colors in set_disc %}
-    {
-        value: {{item}},
-        label: "{{label}}",
-            color : "{{colors}}"
+    var mychartDisc = document.getElementById("chart_disc");
+    var myPieChartDisc = new Chart(mychartDisc,{
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {{set_disc}},
+        backgroundColor: [ "#19D464", "#8F19D4", "#C1D419"],
+    }],
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: ["Weapons","Drug","Liquor"],
     },
-    {% endfor %}];
+    options: {
+        legend: {
+            display: false
+        },
+        title:{
+            display:true,
+                text: 'Disciplinary Action'
+        },
+        elements: {
+            arc: {
+                borderWidth: 0
+            }
+        }
+    }
+    });
 
-    // get bar chart canvas
-    var mychart = document.getElementById("chart_disc").getContext("2d");
-    steps = 10
-    max = 10
-    // draw pie chart
-    new Chart(document.getElementById("chart_disc").getContext("2d")).Pie(pieData_disc);
+    var mychartVawa = document.getElementById("chart_vawa");
+    var myPieChartVawa = new Chart(mychartVawa,{
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {{set_vawa}},
+        backgroundColor: [ "#3219D4", "#D46A19", "#D419A8"],
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: ["Domestic Violence","Dating Violence","Stalking"],
+        },
+    options: {
+        legend: {
+            display: false
+        },
+        title:{
+            display:true,
+                text: 'Violence Against Women'
+        },
+        elements: {
+            arc: {
+                borderWidth: 0
+            }
+        }
+    }
+    });
 
-    var pieData_criminal = [
-        {% for item,label,colors in set_criminal %}
-    {
-        value: {{item}},
-        label: "{{label}}",
-            color : "{{colors}}"
+    var mychartArrest = document.getElementById("chart_arrest");
+    var myPieChartArrest = new Chart(mychartArrest,{
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {{set_arrest}},
+        backgroundColor: [ "#3219D4", "#D46A19", "#D419A8"],
+    }],
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: ["Weapons","Drug","Liquor"],
     },
-    {% endfor %}];
-
-    // get bar chart canvas
-    var mychart = document.getElementById("chart_criminal").getContext("2d");
-    steps = 10
-    max = 10
-    // draw pie chart
-    new Chart(document.getElementById("chart_criminal").getContext("2d")).Pie(pieData_criminal);
-
-
-    var pieData_hate = [
-        {% for item1,label1,colors1 in set_hate %}
-    {
-        value: {{item1}},
-        label: "{{label1}}",
-        color : "{{colors1}}"
-    },
-    {% endfor %}];
-
-    // get bar chart canvas
-    var mychart1 = document.getElementById("chart_hate").getContext("2d");
-    steps = 10
-    max = 10
-    // draw pie chart
-    new Chart(document.getElementById("chart_hate").getContext("2d")).Pie(pieData_hate);
+    options: {
+        legend: {
+            display: false
+        },
+        title:{
+            display:true,
+                text: 'Arrest'
+        },
+        elements: {
+            arc: {
+                borderWidth: 0
+            }
+        }
+    }
+    });
 
 </script>
 </body></html>

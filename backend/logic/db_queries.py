@@ -39,13 +39,13 @@ where i.name = '{inst_name}' and a.location = '{location}'
 
 # ------------- vawa section ---------------------
 institute_wise_crimes_vawa = """
-select a.DOMESTIC_VIOLENCE, a.DATING_VIOLENCE, a.STALKING from vawa a
+select Coalesce(sum(a.DOMESTIC_VIOLENCE),0) as DOMESTIC_VIOLENCE, Coalesce(sum(a.DATING_VIOLENCE),0) as DATING_VIOLENCE, Coalesce(sum(a.STALKING),0) as STALKING from vawa a
 inner join institute i on i.id = a.instituteid
 where a.Location = '{location}' and i.name = '{inst_name}' and a.year = {year}
 """
 
 institute_wise_crimes_vawa_all = """
-select a.DOMESTIC_VIOLENCE, a.DATING_VIOLENCE, a.STALKING from vawa a
+select sum(a.DOMESTIC_VIOLENCE) as DOMESTIC_VIOLENCE, sum(a.DATING_VIOLENCE) as DATING_VIOLENCE, sum(a.STALKING) as STALKING from vawa a
 inner join institute i on i.id = a.instituteid
 where i.name = '{inst_name}'
 """
@@ -107,11 +107,13 @@ where i.name = '{inst_name}' and a.location = '{location}'
 
 # ------------- criminal section ---------------------
 institute_wise_crimes_criminal = """
-select a.MURDER, a.NEGLIGENT_MANSLAUGHTER, a.FORCIBLE_SEX, a.NONFORCIBLE_SEX, a.ROBBERY, a.AGGRAVATED_ASSAULTS,
-a.BURGLARY, a.MOTOR_VEHICLE_THEFT, a.ARSON from criminal a
+select sum(a.MURDER) as MURDER, sum(a.NEGLIGENT_MANSLAUGHTER) as NEGLIGENT_MANSLAUGHTER, sum(a.FORCIBLE_SEX) as FORCIBLE_SEX, sum(a.NONFORCIBLE_SEX) as NONFORCIBLE_SEX, 
+sum(a.ROBBERY) as ROBBERY, sum(a.AGGRAVATED_ASSAULTS) as AGGRAVATED_ASSAULTS,
+sum(a.BURGLARY) as BURGLARY, sum(a.MOTOR_VEHICLE_THEFT) as MOTOR_VEHICLE_THEFT, sum(a.ARSON) as ARSON from criminal a
 inner join institute i on i.id = a.instituteid
 where i.name = '{inst_name}'
-and a.year = {year} and a.location = '{location}'"""
+and a.year = {year} and a.location = '{location}'
+"""
 
 institute_wise_crimes_criminal_all = """
 select sum(a.MURDER) as sum_murder, sum(a.NEGLIGENT_MANSLAUGHTER) as sum_negligent_manslaughter, 

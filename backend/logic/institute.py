@@ -58,7 +58,7 @@ def get_campus_crimes(inst_name, year, location):
                 inst_name=inst_name,
                 year=year,
                 location=location)).fetchall()
-
+            print(rows)
             resultSet.append(rows)
 
             #vawa
@@ -66,6 +66,24 @@ def get_campus_crimes(inst_name, year, location):
                 inst_name=inst_name,
                 year=year,
                 location=location)).fetchall()
+
+            # print(rows)
+            # temp = []
+            # abc = [0, 0, 0]
+            # for row in rows:
+            #     #abc = list(row)
+            #     for i, val in enumerate(row):
+            #         print('val')
+            #         print(val)
+            #         if val == None:
+            #             abc[i] = 0
+            #         else:
+            #            abc[i] = val
+            #     temp.append(tuple(abc))
+            #
+            # print('1')
+            # print(temp)
+            #resultSet.append(rows)
 
             resultSet.append(rows)
 
@@ -86,11 +104,21 @@ def get_campus_crimes(inst_name, year, location):
 
             resultSet.append(rows)
 
+
             #vawa
             rows = db.cursor.execute(db_queries.institute_wise_crimes_vawa_noLoc.format(
                 inst_name=inst_name,
                 year=year,
                 location=location)).fetchall()
+            print(rows)
+            abc = list(rows)
+            for i, val in enumerate(abc):
+                if val == "None":
+                    abc[i] = 0
+            rows = tuple(abc)
+
+            print('vawa --')
+            print(rows)
 
             resultSet.append(rows)
 
@@ -109,7 +137,7 @@ def get_campus_crimes(inst_name, year, location):
                 inst_name=inst_name,
                 year=year,
                 location=location)).fetchall()
-
+            print(rows)
             resultSet.append(rows)
 
             #vawa
@@ -117,6 +145,17 @@ def get_campus_crimes(inst_name, year, location):
                 inst_name=inst_name,
                 year=year,
                 location=location)).fetchall()
+
+            print(rows)
+
+            abc = list(rows)
+            for i, val in enumerate(abc):
+                if val == "None":
+                    abc[i] = 0
+            rows = tuple(abc)
+
+            print('vawa --')
+            print(rows)
 
             resultSet.append(rows)
 
@@ -141,6 +180,15 @@ def get_campus_crimes(inst_name, year, location):
                 inst_name=inst_name,
                 year=year,
                 location=location)).fetchall()
+
+            abc = list(rows)
+            for i, val in enumerate(abc):
+                if val == "None":
+                    abc[i] = 0
+            rows = tuple(abc)
+
+            print('vawa --')
+            print(rows)
 
             resultSet.append(rows)
 
@@ -167,6 +215,15 @@ def get_campus_crimes(inst_name, year, location):
             year=year,
             location=location)).fetchall()
 
+        abc = list(rows)
+        for i, val in enumerate(abc):
+            if val == "None":
+                abc[i] = 0
+        rows = tuple(abc)
+
+        print('vawa --')
+        print(rows)
+
         resultSet.append(rows)
 
         #hate
@@ -178,6 +235,7 @@ def get_campus_crimes(inst_name, year, location):
         resultSet.append(rows)
 
     else:
+#        print('yooo')
         #criminal
         rows = db.cursor.execute(db_queries.institute_wise_crimes_criminal.format(
             inst_name=inst_name,
@@ -191,6 +249,15 @@ def get_campus_crimes(inst_name, year, location):
             inst_name=inst_name,
             year=year,
             location=location)).fetchall()
+
+        # abc = list(rows)
+        # for i, val in enumerate(abc):
+        #     if val == "None":
+        #         abc[i] = 0
+        # rows = tuple(abc)
+
+        # print('vawa --')
+        # print(rows)
 
         resultSet.append(rows)
 
@@ -270,7 +337,7 @@ def get_campus_crimes(inst_name, year, location):
     #print(row[1])
     #crime_data[row[1]] = row[0]
     #resultSet.append({"crime_table": table.title(), "crime_data": crime_data})
-    print('in resultSet')
-    print(resultSet)
+    # print('in resultSet')
+    # print(resultSet)
 
     return resultSet

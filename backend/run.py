@@ -19,20 +19,21 @@ def institute():
         institute_data = it.get_all_institute_names()
         years = [2013, 2014, 2015, '--']
         locations = ['noncampus', 'oncampus', 'reported by', 'residence hall', '--']
-        values_criminal = []
+        values_criminal = [0]
         labels_criminal = []
         colors_criminal = []
-        values_hate = []
+        values_hate = [0]
         labels_hate = []
         colors_hate = []
         labels_arrest = []
-        values_arrest = []
+        values_arrest = [0]
         colors_arrest = []
         labels_disc = []
-        values_disc = []
+        values_disc = [0]
         colors_disc = []
+        set_vawa = []
         labels_vawa = []
-        values_vawa = []
+        values_vawa = [0]
         colors_vawa = []
 
     else:
@@ -42,14 +43,26 @@ def institute():
         print(f"institute_data: {institute_data}")
         years = [form_data['year']]
         locations = [form_data['location']]
+
+        print('haha')
+
+        print('form_data[''institute'']')
+        print(form_data['institute'])
+
+        print('form_data[''year'']')
+        print(form_data['year'])
+
+        print('form_data[''location'']')
+        print(form_data['location'])
+
         result = it.get_different_crimes_count_per_campus(form_data['institute'],form_data['year'],form_data['location'])
 
         #adding new methods here -
         result1 = it.get_campus_crimes(form_data['institute'],form_data['year'],form_data['location'])
 
-        print(result)
-        print('ur here')
-        print(result1)
+        # print(result)
+        # print('ur here')
+        # print(result1)
         # result = [{"crime_table": "Arrest", "crime_data": {"Main campus": 10, "Old Campus": 0}}]
 
         labels_arrest = ["Weapons","Drug","Liquor"]
@@ -70,17 +83,22 @@ def institute():
         labels_criminal = ["Murder","Negligent Manslaughter","Forcible Sex","Nonforcible Sex","Robbery","Aggravated Assaults","Burglary","Motor Vehicle Theft", "Arson"]
         #values_criminal = result1[0][0]
         values_criminal = result1[0][0]
-        colors_criminal = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
+        colors_criminal = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC","#F7464A", "#46BFBD"  ]
 
         labels_hate = ["Murder","Forcible Sex","Nonforcible Sex","Robbery","Aggravated Assaults","Burglary","Motor Vehicle Theft", "Arson", "Vandalism", "Intimidation",
                    "Simple Assault", "Larceny"]
-        print('result1[3]')
-        print(result1[0][0])
+        # print('result1[3]')
+        # print(result1[0][0])
         values_hate = result1[2][0]
         colors_hate = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC", "#F7464A", "#46BFBD", "#FDB45C", "#F7464A", "#46BFBD"  ]
         #return render_template('trial.html', set=zip(values, labels, colors))
 
-    return render_template("institute.html", title='Campus Data', institute_data=institute_data, locations=locations, years=years, result=result, set_arrest=zip(values_arrest, labels_arrest, colors_arrest), set_disc=zip(values_disc, labels_disc, colors_disc), set_vawa=zip(values_vawa, labels_vawa, colors_vawa), set_criminal=zip(values_criminal, labels_criminal, colors_criminal), set_hate=zip(values_hate, labels_hate, colors_hate))
+        print('haha')
+        #abc = zip(values_vawa, labels_vawa, colors_vawa)
+        print(f"abc :{values_vawa}")
+
+    # return render_template("institute.html", title='Campus Data', institute_data=institute_data, locations=locations, years=years, result=result, set_arrest=zip(values_arrest, labels_arrest, colors_arrest), set_disc=zip(values_disc, labels_disc, colors_disc), set_vawa=list(values_vawa), set_criminal=zip(values_criminal, labels_criminal, colors_criminal), set_hate=zip(values_hate, labels_hate, colors_hate))
+    return render_template("institute.html", title='Campus Data', institute_data=institute_data, locations=locations, years=years, result=result, set_arrest=list(values_arrest), set_disc=list(values_disc), set_vawa=list(values_vawa), set_criminal=list(values_criminal), set_hate=list(values_hate))
 
 
 @app.route('/institutelist', methods=['GET'])
