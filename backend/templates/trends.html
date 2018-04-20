@@ -206,6 +206,7 @@
     </h3>
 
     <script>
+        var myChart;
         $(document).ready(function() {
 
             $('.line-block').hide().filter("#criminal").show();
@@ -312,7 +313,10 @@
                     var ctx = document.getElementById("myChart").getContext("2d");
 
                     // create the chart using the chart canvas
-                    var myChart = new Chart(ctx, {
+                    if (myChart){
+                        myChart.destroy();
+                    }
+                    myChart = new Chart(ctx, {
                         type: 'bar',
                         data: chartData,
                         options: options
