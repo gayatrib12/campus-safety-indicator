@@ -2,34 +2,35 @@
 
 {% block content %}
 
-<h3>Inputs:</h3>
+<h3 style="text-align:center">Display Institute-wise crime analysis</h3>
 <form name="inst" action="{{ url_for('institute') }}" method='POST'>
     <ul class="form-style-1">
         <li>
             <label>Institue Name:</label>
-            <select name="institute" class="field-select">
-                {% for inst in institute_data %}
-                <option width="200" value="{{inst}}">{{inst}}</option>
-                {% endfor %}
-            </select>
+            {% if store_inst_name|length > 0 %}
+                <input class="typeahead" id="institute1" name="institute" type="text" placeholder="{{store_inst_name}}" value="{{store_inst_name}}">
+            {% else %}
+                <input class="typeahead" id="institute2" name="institute" type="text" placeholder="Type institute name ...">
+            {% endif %}
         </li>
+        <!--<li>-->
+            <!--<label>Institue Name:</label>-->
+            <!--<select name="institute" class="field-select">-->
+                <!--{% for inst in institute_data %}-->
+                <!--<option width="200" value="{{inst}}">{{inst}}</option>-->
+                <!--{% endfor %}-->
+            <!--</select>-->
+        <!--</li>-->
         <li>
             <label>Location:</label>
-            <select name="location" class="field-select">
+            <select name="location" id="location" class="field-select">
                 {% for loc in locations %}
                 <option value="{{loc}}">{{loc}}</option>
                 {% endfor %}
             </select>
         </li>
-        <li>
-            <label>Year:</label>
-            <select name="year" class="field-select">
-                {% for year in years %}
-                <option value={{year}}>{{year}}</option>
-                {% endfor %}
-            </select>
-        </li>
-        <li>
+
+        <li style="text-align:center">
             <input type="submit" value="Submit" />
         </li>
     </ul>
@@ -50,41 +51,62 @@
             display:inline-block;
         }
 
+        .typeahead{
+            width: 100%; }
+
+        h3 {
+            text-align: justify;
+        }
+
 
     </style>
 </head>
 <body>
-<h1></h1><!-- bar chart canvas element -->
+
+{% if ((set_arrest|sum + set_vawa|sum + set_disc|sum + set_criminal|sum + set_hate|sum) == 0) and (message == 1)  %}
+    <h3 style="text-align:center">No crimes of these type(s) reported for {{store_inst_name}}</h3>
+{% endif %}
+
 <div class="container main" style="margin-top: 3%;">
     <div class="container main-info">
 
-        <div>
-            <canvas id="chart_arrest" width="200" height="200" ></canvas>
-        </div>
+        {% if set_arrest|sum > 0 %}
+            <div>
+                <canvas id="chart_arrest" width="200" height="200" ></canvas>
+            </div>
+        {% endif %}
 
-
+        {% if set_vawa|sum > 0 %}
         <div>
             <canvas id="chart_vawa" width="200" height="200" ></canvas>
         </div>
+        {% endif %}
 
+        {% if set_disc|sum > 0 %}
         <div>
             <canvas id="chart_disc" width="200" height="200" ></canvas>
         </div>
+        {% endif %}
 
+        {% if set_criminal|sum > 0 %}
         <div>
             <canvas id="chart_criminal" width="200" height="200" ></canvas>
         </div>
+        {% endif %}
 
+        {% if set_hate|sum > 0 %}
         <div>
             <canvas id="chart_hate" width="200" height="200"></canvas>
         </div>
+        {% endif %}
 
     </div>
 </div>
 <script>
 
-    // get bar chart canvas
+    // get pie chart canvas
 
+    {% if set_hate|sum > 0 %}
     var mychartHate = document.getElementById("chart_hate");
     var myPieChartHate = new Chart(mychartHate,{
         type: 'pie',
@@ -112,7 +134,9 @@
         }
     }
     });
+    {% endif %}
 
+    {% if set_criminal|sum > 0 %}
     var mychartCriminal = document.getElementById("chart_criminal");
     var myPieChartCriminal = new Chart(mychartCriminal,{
         type: 'pie',
@@ -139,7 +163,9 @@
         }
     }
     });
+    {% endif %}
 
+    {% if set_disc|sum > 0 %}
     var mychartDisc = document.getElementById("chart_disc");
     var myPieChartDisc = new Chart(mychartDisc,{
         type: 'pie',
@@ -166,7 +192,9 @@
         }
     }
     });
+    {% endif %}
 
+    {% if set_vawa|sum > 0 %}
     var mychartVawa = document.getElementById("chart_vawa");
     var myPieChartVawa = new Chart(mychartVawa,{
         type: 'pie',
@@ -193,7 +221,9 @@
         }
     }
     });
+    {% endif%}
 
+    {% if set_arrest|sum > 0 %}
     var mychartArrest = document.getElementById("chart_arrest");
     var myPieChartArrest = new Chart(mychartArrest,{
         type: 'pie',
@@ -220,7 +250,30 @@
         }
     }
     });
+    {% endif %}
 
+    $('.typeahead').typeahead(null, {
+        display: 'name',
+        source: new Bloodhound({
+            datumTokenizer: function(datum) {
+                return Bloodhound.tokenizers.whitespace(datum.value);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                wildcard: '%QUERY',
+                url: '/institutelist?query=%QUERY',
+                transform: function(response) {
+                    console.log(response)
+                    // Map the remote source JSON array to a JavaScript object array
+                    return $.map(response, function(item) {
+                        return {
+                            name: item
+                        };
+                    });
+                }
+            }
+        })
+    });
 
 </script>
 </body></html>
