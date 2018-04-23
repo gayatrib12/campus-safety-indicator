@@ -1,1 +1,33 @@
 {% extends "base.html" %}
+
+{% block content %}
+<div>
+    <ul class='main-nav__item'>
+        <li>
+            <a href="{{ url_for('institute') }}">
+                <p>Single Institute</p>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('compare') }}">
+                <p>Compare Institutes</p>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('trends') }}">
+                <p>Various Trends</p>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('ranking') }}">
+                <p>Rankings</p>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('geographical') }}">
+                <p>Geographical Analysis</p>
+            </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
