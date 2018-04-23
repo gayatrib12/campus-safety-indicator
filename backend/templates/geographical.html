@@ -1,8 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <center><div id="tooltip"></div></center><!-- div to hold tooltip. -->
-    <center><svg width="960" height="600" id="statesvg"></svg></center> <!-- svg to hold the map. -->
+    <div class="container" align="center">
+        <ul class="list-inline">
+            <li>
+                <label>Unsafe</label>
+            </li>
+            <li>
+                <div class="foo .db-inline" style="float:left;width:40px;height:20px;margin:5px;border:1px solid rgba(0, 0, 0, .2);background:{{color_codes['max']}}">
+                </div>
+            </li>
+            
+        </ul>
+        <ul class="list-inline">
+            <li>
+                <label>Safety</label>
+            </li>
+            <li>
+                <div class="foo" style="float:left;width:40px;height:20px;margin:5px;border:1px solid rgba(0, 0, 0, .2);background:{{color_codes['min']}}">
+                </div>
+            </li>
+        </ul>
+        
+        <center><div id="tooltip"></div></center><!-- div to hold tooltip. -->
+        <center><svg width="960" height="600" id="statesvg"></svg></center> <!-- svg to hold the map. -->
+    </div>
     <script type="text/javascript" src="{{ url_for('static', filename='uStates.js') }}"></script> <!-- creates uStates. -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script>
@@ -22,7 +44,7 @@
         "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
         "WI", "MO", "AR", "OK", "KS", "LA", "VA"].forEach(function(d){
                 var crime = in_range_data[d];
-                sampleData[d]={crime:actual_count[d], color:d3.interpolate("#ffffcc", "#800026")(crime / 100)};
+                sampleData[d]={crime:actual_count[d], color:d3.interpolate("{{color_codes['min']}}", "{{color_codes['max']}}")(crime / 100)};
             });
 
 

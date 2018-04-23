@@ -242,9 +242,22 @@ def ranking():
 
 @app.route('/geographical', methods=['GET', 'POST'])
 def geographical():
+    color_codes = {
+        'max': '#800026',
+        'min': '#ffffcc'
+    }
+    mode = 'safety'
+    if mode == 'population':
+        color_codes['max'] = '#004cd1'
+        color_codes['min'] = '#d9e7fe'
+    elif mode == 'safety':
+        color_codes['max'] = '#ddffde'# '#b1ffb2'# '#94ff95'#'#d9feda'
+        color_codes['min'] = '#009302' #'#1d9b1f'#'#00c803'
     result, actual_count = geo.get_state_geographical_data()
     print(f"result: {len(result)} {result}")
-    return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count)
+    color_low = ""
+    color_max = ""
+    return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count, color_codes=color_codes)
 
 @app.route('/tuple_count', methods=['POST'])
 def tuple_count():
