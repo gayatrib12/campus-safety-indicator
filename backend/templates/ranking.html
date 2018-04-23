@@ -35,20 +35,22 @@
 </form>
 {% if result %}
         <hr>
-        <h3>TOP 50 Rankings Un-safe {{rank_element}}:</h3>
-        <table>
-            <tr>
-                <th>Rank</th>
-                <th>{{rank_element}}</th>
-                <th>Count</th>
-            </tr>
-            {% for row in result %}
+        <div class="container" align="center">
+            <h3>TOP 50 Rankings Un-safe {{rank_element}}:</h3>
+            <table>
                 <tr>
-                    <td>{{row.rank}}</td>
-                    <td>{{row.element}}</td>
-                    <td>{{row.count}}</td>
+                    <th>Rank</th>
+                    <th>{{rank_element}}</th>
+                    <th>Count</th>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for row in result %}
+                    <tr>
+                        <td>{{row.rank}}</td>
+                        <td>{{row.element}}</td>
+                        <td>{{row.count}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
 {% endblock %}
