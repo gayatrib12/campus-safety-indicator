@@ -69,6 +69,8 @@ def generateFilterString(filter_input, form_data):
 
     elif filter_input == 'SECTOR':
         sectorlist = form_data.getlist(filter_input.lower())
+        if not sectorlist:
+            return ''
         cond += "S.ID in ('"
         for item in sectorlist:
             cond += item+"','"
@@ -78,6 +80,8 @@ def generateFilterString(filter_input, form_data):
     elif filter_input == 'LEVEL':
         levellist = form_data.getlist(filter_input.lower())
         sectorlist = []
+        if not levellist:
+            return ''
         for item in levellist:
             sectorlist += item.split(",")
         cond += "S.ID in ('"
@@ -89,6 +93,8 @@ def generateFilterString(filter_input, form_data):
     elif filter_input == 'CONTROL':
         controllist = form_data.getlist(filter_input.lower())
         sectorlist = []
+        if not controllist:
+            return ''
         for item in controllist:
             sectorlist += item.split(",")
         cond += "S.ID in ('"
@@ -98,9 +104,11 @@ def generateFilterString(filter_input, form_data):
         return cond
 
     elif filter_input == 'LOCATION':
-        sectorlist = form_data.getlist(filter_input.lower())
+        loclist = form_data.getlist('clerygeography')
+        if not loclist:
+            return ''
         cond += "C.LOCATION in ('"
-        for item in sectorlist:
+        for item in loclist:
             cond += item+"','"
         cond = cond[:-2] + ") "
         return cond
