@@ -4,6 +4,7 @@ from backend.logic import rankings as rk
 from backend.logic import geographical as geo
 from backend.logic import trends as trnds
 from backend.logic import compare as comp
+from backend.logic import index as ind
 
 app = Flask('Campus Safety Indicator')
 
@@ -248,8 +249,7 @@ def geographical():
 
 @app.route('/tuple_count', methods=['POST'])
 def tuple_count():
-    # TODO:- add the query function in here
-    data = {"total_count": "1,000,000"}
+    data = {"total_count": ind.get_total_tuple_count()}
     return jsonify(data)
 
 if __name__ == '__main__':

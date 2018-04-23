@@ -219,3 +219,19 @@ arrest_state_rank = """select state, rank() over (order by arrest_count desc), a
                 group by institute.STATE
             )"""
 
+total_tuple_count = """
+select *
+from (select (
+              (select count(*) from arrest)
+              + (select count(*) from bias)
+              + (select count(*) from criminal)
+              + (select count(*) from DISCIPLINARY_ACTION)
+              + (select count(*) from hate)
+              + (select count(*) from institute)
+              + (select count(*) from location)
+              + (select count(*) from sector)
+              + (select count(*) from vawa)
+              ) as total_count
+      from bias)
+where rownum = 1
+"""
