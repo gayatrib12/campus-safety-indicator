@@ -43,16 +43,17 @@
 <div class="container main" style="margin-top: 3%;">
     <div class="container main-info">
 
+
         {% if set_arrest|sum > 0 %}
             <div>
-                <canvas id="chart_arrest" width="200" height="200" ></canvas>
+                <canvas id="chart_arrest" width="200" height="200"></canvas>
             </div>
         {% endif %}
 
         {% if set_vawa|sum > 0 %}
-        <div>
-            <canvas id="chart_vawa" width="200" height="200" ></canvas>
-        </div>
+            <div>
+                <canvas id="chart_vawa" width="200" height="200" ></canvas>
+            </div>
         {% endif %}
 
         {% if set_disc|sum > 0 %}
@@ -104,7 +105,8 @@
             arc: {
                 borderWidth: 0
             }
-        }
+        },
+        maintainAspectRatio: false,
     }
     });
     {% endif %}
@@ -133,7 +135,8 @@
             arc: {
                 borderWidth: 0
             }
-        }
+        },
+        maintainAspectRatio: false,
     }
     });
     {% endif %}
@@ -162,7 +165,8 @@
             arc: {
                 borderWidth: 0
             }
-        }
+        },
+        maintainAspectRatio: false,
     }
     });
     {% endif %}
@@ -191,13 +195,15 @@
             arc: {
                 borderWidth: 0
             }
-        }
+        },
+        maintainAspectRatio: false,
     }
     });
     {% endif%}
 
     {% if set_arrest|sum > 0 %}
     var mychartArrest = document.getElementById("chart_arrest");
+    // mychartArrest.height = 200;
     var myPieChartArrest = new Chart(mychartArrest,{
         type: 'pie',
         data: {
@@ -220,7 +226,8 @@
             arc: {
                 borderWidth: 0
             }
-        }
+        },
+        maintainAspectRatio: false,
     }
     });
     {% endif %}
