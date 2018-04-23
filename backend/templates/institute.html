@@ -36,33 +36,6 @@
     </ul>
 </form>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <style>https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css</style>
-    <!--<script src='static/Chart.min.js'></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-
-
-    <style>
-        div {
-            display:inline-block;
-        }
-
-        .typeahead{
-            width: 100%; }
-
-        h3 {
-            text-align: justify;
-        }
-
-
-    </style>
-</head>
-<body>
-
 {% if ((set_arrest|sum + set_vawa|sum + set_disc|sum + set_criminal|sum + set_hate|sum) == 0) and (message == 1)  %}
     <h3 style="text-align:center">No crimes of these type(s) reported for {{store_inst_name}}</h3>
 {% endif %}
@@ -276,6 +249,5 @@
     });
 
 </script>
-</body></html>
 {% endblock %}
 
