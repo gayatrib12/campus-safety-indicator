@@ -41,13 +41,6 @@ def get_comparison_arrest(inst_names, year, count):
     result.append({"pairwise_data": temp})
    # print(result)
     return result
-    #[{'inst_name': 'University Of Florida', 'compare_data': [(7, 136, 75)]}, 
-    #{'inst_name': 'A T Still University Of Health Sciences', 'compare_data': [(0, 0, 0)]}, 
-    #{'inst_name': 'A T Still University Of Health Sciences', 'compare_data': [(0, 0, 0)]}, 
-    #{'pairwise_data': [[7, 0, 0], [136, 0, 0], [75, 0, 0]]}]
-
-    #{'compare_table': 'A T Still University Of Health Sciences', 'compare_data': [(0, 0, 0)]}
-    #[{'compare_table': 'A T Still University Of Health Sciences', 'compare_data': [(0, 0, 0)]}, {'compare_table': 'A T Still University Of Health Sciences', 'compare_data': [(0, 0, 0)]}, {'pairwise_data': [[0, 0], [0, 0], [0, 0]]}]
 
 def get_comparison_disc_action(inst_names, year, count):
     crime_tables = ['disciplinary_action']

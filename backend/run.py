@@ -197,15 +197,18 @@ def compare():
     vawa_result = None
     hate_result = None
     inst_3_data = None
+    institute_data = None
     if request.method == 'GET':
-        institute_data = it.get_all_institute_names()
+        # institute_data = it.get_all_institute_names()
         years = [2013, 2014, 2015]
-        locations = ['noncampus', 'campus', 'reported by', 'residence hall']
-        inst_3_data = list(institute_data)
-        inst_3_data.insert(0, "--None--")
+        # locations = ['noncampus', 'campus', 'reported by', 'residence hall']
+        # inst_3_data = list(institute_data)
+        # inst_3_data.insert(0, "--None--")
+        return render_template("compare.html", title='Compare Data', years = years, institute_data=institute_data)
     else:
         form_data = request.form
         institute_data = [form_data['institute1'], form_data['institute2'], form_data['institute3']]
+        print(institute_data)
         if (institute_data[-1] == "--None--"):
             institute_data.pop()
         inst_count = len(institute_data)

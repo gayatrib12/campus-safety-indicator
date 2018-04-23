@@ -3,30 +3,22 @@
 {% block content %}
 	<form name="inst" action="{{ url_for('compare') }}" method='POST'>
         <ul class="form-style-1">
-            <li>
-                <label>Institue Name 1:</label>
-                <select name="institute1" class="field-select">
-                    {% for inst in institute_data %}
-                        <option value="{{inst}}">{{inst}}</option>
-                    {% endfor %}        
-                </select>
-            </li>
-            <li>
-                <label>Institue Name 2:</label>
-                <select name="institute2" class="field-select">
-                    {% for inst in institute_data %}
-                        <option value="{{inst}}">{{inst}}</option>
-                    {% endfor %}        
-                </select>
-            </li>
-            <li>
-                <label>Institue Name 3:</label>
-                <select name="institute3" class="field-select">
-                    {% for inst in inst_3_data %}
-                        <option value="{{inst}}">{{inst}}</option>
-                    {% endfor %}        
-                </select>
-            </li>
+        	<li id = "institute1">
+                    <label>Institue Name 1:</label>
+                    <input id="inp_1" class="typeahead" name="institute1" type="text" placeholder="Type institute name ...">
+
+             </li>
+             <li id = "institute2">
+                    <label>Institue Name 2:</label>
+                    <input id="inp_2" class="typeahead" name="institute2" type="text" placeholder="Type institute name ...">
+
+             </li>
+             <li id = "institute3">
+                    <label>Institue Name 3:</label>
+                    <input id="inp_3" class="typeahead" name="institute3" type="text">
+
+             </li>
+            
             <li>
                 <label>Year:</label>
                 <select name="year" class="field-select">
@@ -68,6 +60,44 @@
     		<canvas id="canvas_vawa_2" width="400" height="400" style="margin:auto"	></canvas> </div>
 	</div>
 	{% endif %}
+
+	<script type="text/javascript">
+		$('document').ready(function () {
+		   $('#inp_1').val('{{institute_data[0]}}')
+		   $('#inp_2').val('{{institute_data[1]}}')
+		   // alert($('#inp_3').val().length)
+		   if( $('#inp_3').val().length)
+			{
+			 	$('#inp_3').val('{{institute_data[2]}}')
+			}
+			else
+			{
+				$('#inp_3').val('--None--')	
+			}
+		})
+		$('.typeahead').typeahead(null, {
+            display: 'name',
+            source: new Bloodhound({
+                datumTokenizer: function(datum) {
+                    return Bloodhound.tokenizers.whitespace(datum.value);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    wildcard: '%QUERY',
+                    url: '/institutelist?query=%QUERY',
+                    transform: function(response) {
+                        console.log(response)
+                        // Map the remote source JSON array to a JavaScript object array
+                        return $.map(response, function(item) {
+                            return {
+                                name: item
+                            };
+                        });
+                    }
+                }
+            })
+        });
+	</script>
 
 	{% if result %}
 		<script>
@@ -118,6 +148,8 @@
 					}
 				}
 			});
+
+		
 
 		</script>
 	{% endif %}
