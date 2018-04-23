@@ -24,7 +24,7 @@ states = {
         'IN': 'Indiana',
         'KS': 'Kansas',
         'KY': 'Kentucky',
-        'LS': 'Louisiana',
+        'LA': 'Louisiana',
         'MA': 'Massachusetts',
         'MD': 'Maryland',
         'ME': 'Maine',
@@ -67,7 +67,7 @@ map_state_list = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "M
     "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
     "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
     "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN",
-    "WI", "MO", "AR", "OK", "KS", "LS", "VA"]
+    "WI", "MO", "AR", "OK", "KS", "LA", "VA"]
 
 def get_arrest_state_rank():
     rows = db.cursor.execute(db_queries.arrest_state_rank).fetchall()
