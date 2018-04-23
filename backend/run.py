@@ -246,5 +246,11 @@ def geographical():
     print(f"result: {len(result)} {result}")
     return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count)
 
+@app.route('/tuple_count', methods=['POST'])
+def tuple_count():
+    # TODO:- add the query function in here
+    data = {"total_count": "1,000,000"}
+    return jsonify(data)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

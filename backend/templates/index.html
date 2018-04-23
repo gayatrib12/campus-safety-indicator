@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container" align="center">
+    <button type="button" class="btn btn-primary btn-sm">Get Tuple Count</button>
+</div>
+<script type="text/javascript">
+$("button").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "{{ url_for('tuple_count') }}",
+        success: function(result) {
+            alert('Total tuple count: ' + result['total_count']);
+        },
+        error: function(result) {
+            alert('error');
+        }
+    });
+});
+</script>
 
 {% endblock %}
