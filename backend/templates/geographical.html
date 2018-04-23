@@ -14,29 +14,16 @@
         }
 
         var sampleData ={}; /* Sample random data. */
-        var incoming_data = JSON.parse('{{result | tojson}}'); 
-        console.log(incoming_data);
+        var in_range_data = JSON.parse('{{in_range_result | tojson}}');
+        var actual_count = JSON.parse('{{ actual_count | tojson }}'); 
         ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
         "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
         "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
         "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
         "WI", "MO", "AR", "OK", "KS", "LS", "VA"].forEach(function(d){
-                console.log(incoming_data[d]);
-                var crime=incoming_data[d];
-                console.log(d);
-                console.log(crime);
-                console.log({{max_count}})
-                //console.log(d);
-                sampleData[d]={crime:crime, color:d3.interpolate("#ffffcc", "#800026")(crime / 100)};
+                var crime = in_range_data[d];
+                sampleData[d]={crime:actual_count[d], color:d3.interpolate("#ffffcc", "#800026")(crime / 100)};
             });
-        //     .forEach(function(d){ 
-        //         var low=Math.round(100*Math.random()), 
-        //             mid=Math.round(100*Math.random()), 
-        //             high=Math.round(100*Math.random());
-        //         console.log(low);
-        //         sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
-        //                 avg:Math.round((low+mid+high)/3), color:d3.interpolate("#ffffcc", "#800026")(low/100)}; 
-        //     });
 
 
         /* draw states on id #statesvg */

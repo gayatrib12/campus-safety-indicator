@@ -245,9 +245,9 @@ def ranking():
 
 @app.route('/geographical', methods=['GET', 'POST'])
 def geographical():
-    result, max_count = geo.get_state_geographical_data()
-    print(f"result: {len(result)} max_count: {max_count}, {result}")
-    return render_template("geographical.html", title="Geographical Stats", result=result, max_count=max_count)
+    result, actual_count = geo.get_state_geographical_data()
+    print(f"result: {len(result)} {result}")
+    return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
