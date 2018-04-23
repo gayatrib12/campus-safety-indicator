@@ -40,42 +40,42 @@
     <h3 style="text-align:center">No crimes of these type(s) reported for {{store_inst_name}}</h3>
 {% endif %}
 
-<div class="container main" style="margin-top: 3%;">
-    <div class="container main-info">
-
-
+<div class="container main" style="margin-top: 3%;" align="center">
+    <!-- <div class="container main-info"> -->
+    <ul class="list-inline">
         {% if set_arrest|sum > 0 %}
-            <div>
-                <canvas id="chart_arrest" width="200" height="200"></canvas>
-            </div>
+            <li>
+                <canvas id="chart_arrest" width="200" height="200" ></canvas>
+            </li>
         {% endif %}
 
         {% if set_vawa|sum > 0 %}
-            <div>
-                <canvas id="chart_vawa" width="200" height="200" ></canvas>
-            </div>
+        <li>
+            <canvas id="chart_vawa" width="200" height="200" ></canvas>
+        </li>
         {% endif %}
 
         {% if set_disc|sum > 0 %}
-        <div>
+        <li>
             <canvas id="chart_disc" width="200" height="200" ></canvas>
-        </div>
+        </li>
         {% endif %}
 
         {% if set_criminal|sum > 0 %}
-        <div>
+        <li>
             <canvas id="chart_criminal" width="200" height="200" ></canvas>
-        </div>
+        </li>
         {% endif %}
 
         {% if set_hate|sum > 0 %}
-        <div>
+        <li>
             <canvas id="chart_hate" width="200" height="200"></canvas>
-        </div>
+        </li>
         {% endif %}
-
-    </div>
+    </ul>
+    <!-- </div> -->
 </div>
+
 <script>
 
     // get pie chart canvas
@@ -94,6 +94,7 @@
         "Simple Assault", "Larceny"],
     },
     options: {
+        responsive: false,
         legend: {
             display: false
         },
@@ -124,6 +125,7 @@
     labels: ["Murder","Negligent Manslaughter","Forcible Sex","Nonforcible Sex","Robbery","Aggravated Assaults","Burglary","Motor Vehicle Theft", "Arson"]
     },
     options: {
+        responsive: false,
         legend: {
             display: false
         },
@@ -154,6 +156,7 @@
     labels: ["Weapons","Drug","Liquor"],
     },
     options: {
+        responsive: false,
         legend: {
             display: false
         },
@@ -184,6 +187,7 @@
     labels: ["Domestic Violence","Dating Violence","Stalking"],
     },
     options: {
+        responsive: false,
         legend: {
             display: false
         },
@@ -215,6 +219,7 @@
     labels: ["Weapons","Drug","Liquor"],
     },
     options: {
+        responsive: false,
         legend: {
             display: false
         },
