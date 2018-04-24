@@ -248,5 +248,20 @@ select state, rank() over (order by student_count desc), student_count
 from (select state, sum(TOTAL) as student_count
       from institute
       where state is not null
-      group by state)
-"""
+      group by state)"""
+
+total_tuple_count = """
+select *
+from (select (
+              (select count(*) from arrest)
+              + (select count(*) from bias)
+              + (select count(*) from criminal)
+              + (select count(*) from DISCIPLINARY_ACTION)
+              + (select count(*) from hate)
+              + (select count(*) from institute)
+              + (select count(*) from location)
+              + (select count(*) from sector)
+              + (select count(*) from vawa)
+              ) as total_count
+      from bias)
+where rownum = 1"""
