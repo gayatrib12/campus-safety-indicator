@@ -111,3 +111,27 @@ def get_hate_state_ranks():
     rows = db.cursor.execute(db_queries.hate_state_rank).fetchall()
     return [{"element": states[row[0]], "rank": row[1], "count": row[2]}for row in rows if states.get(row[0])]
 
+def get_categorize_arrest_institute_ranks(category):
+    print(f"query: {db_queries.categorize_arrest_institute_rank.format(category=category)}")
+    rows = db.cursor.execute(db_queries.categorize_arrest_institute_rank.format(category=category)).fetchall()
+    return [{"element": row[0], "rank": row[1], "count": row[2]}for row in rows]
+
+def get_categorize_crime_institute_ranks(category):
+    print(f"query: {db_queries.categorize_crime_institute_rank.format(category=category)}")
+    rows = db.cursor.execute(db_queries.categorize_crime_institute_rank.format(category=category)).fetchall()
+    return [{"element": row[0], "rank": row[1], "count": row[2]}for row in rows]
+
+def get_categorize_vawa_institute_ranks(category):
+    print(f"query: {db_queries.categorize_vawa_institute_rank.format(category=category)}")
+    rows = db.cursor.execute(db_queries.categorize_vawa_institute_rank.format(category=category)).fetchall()
+    return [{"element": row[0], "rank": row[1], "count": row[2]}for row in rows]
+
+def get_categorize_hate_institute_ranks(category):
+    print(f"query: {db_queries.categorize_hate_institute_rank.format(category=category)}")
+    rows = db.cursor.execute(db_queries.categorize_hate_institute_rank.format(category=category)).fetchall()
+    return [{"element": row[0], "rank": row[1], "count": row[2]}for row in rows]
+
+def get_categorize_disciplinary_institute_ranks(category):
+    print(f"query: {db_queries.categorize_disciplinary_institute_rank.format(category=category)}")
+    rows = db.cursor.execute(db_queries.categorize_disciplinary_institute_rank.format(category=category)).fetchall()
+    return [{"element": row[0], "rank": row[1], "count": row[2]}for row in rows]

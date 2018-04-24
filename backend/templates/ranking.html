@@ -6,17 +6,25 @@
     <ul class="form-style-1">
         <li>
             <label>Ranks based on:</label>
-            <select name="rank_type" class="field-select">
+            <select name="rank_type" class="field-select" id="catdd">
                 {% for type in rank_type %}
                     <option value="{{type}}">{{type}}</option>
                 {% endfor %}
             </select>
         </li>
         <li>
-            <label>Trend Type:</label>
+            <label>Crime Type:</label>
             <select name="trend_type" class="field-select">
                 {% for trend in trends %}
                     <option value="{{trend}}">{{trend}}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li id="category" class='line-block'>
+            <label>Category type:</label>
+            <select name="category" class="field-select">
+                {% for category in categories %}
+                    <option value="{{category}}">{{category}}</option>
                 {% endfor %}
             </select>
         </li>
@@ -48,13 +56,13 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#crime').hide();
+            $('#category').hide();
 
             $('#catdd').change(function() {
                 var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
                 console.log(selectedId);
-                if (selectedId == 'crime')
-                    $('.line-block').hide().filter('#' + selectedId).show();
+                if (selectedId == 'universitycategory')
+                    $('.line-block').hide().filter('#category').show();
                 else
                     $('.line-block').hide();
             });

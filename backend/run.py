@@ -222,8 +222,9 @@ def compare():
 
 @app.route('/ranking', methods=['GET', 'POST'])
 def ranking():
-    rank_types = ['University', 'State']
+    rank_types = ['University', 'State', 'University Category']
     trends = ['Arrest', 'Crime', 'Disciplinary', 'Hate', 'Vawa']
+    categories = ['Huge', 'Large', 'Medium', 'Small']
     years = [2013, 2014, 2015]
     result = []
     year = None
@@ -240,11 +241,20 @@ def ranking():
         print(f"rank_type: {rank_type}")
         if rank_type == "University":
             func = getattr(rk, f"get_{trend_type.lower()}_institute_ranks")
+            result = func()
+        elif rank_type == 'University Category':
+            print("in University category")
+            category = form_data['category']
+            print(f"received category: {category}")
+            categories.remove(category)
+            categories.insert(0, category)
+            func = getattr(rk, f"get_categorize_{trend_type.lower()}_institute_ranks")
+            result = func(category.lower())
         else:
             func = getattr(rk, f"get_{trend_type.lower()}_state_ranks")
-        result = func()
+            result = func()
         print(f"result of arrest rank query: {result}")
-    return render_template("ranking.html", title="Ranking Stats", rank_type=rank_types, trends=trends, years=years, result=result, year_in_consideration=year, rank_element=rank_type)
+    return render_template("ranking.html", title="Ranking Stats", rank_type=rank_types, trends=trends, years=years, result=result, year_in_consideration=year, rank_element=rank_type, categories=categories)
 
 @app.route('/geographical', methods=['GET', 'POST'])
 def geographical():

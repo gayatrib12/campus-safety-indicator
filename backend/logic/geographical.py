@@ -104,6 +104,21 @@ def get_state_crime_data():
     rows = db.cursor.execute(db_queries.crime_state_rank).fetchall()
     return scale_data(rows)
 
+def get_state_disciplinary_data():
+    print(db_queries.disciplinary_state_rank)
+    rows = db.cursor.execute(db_queries.disciplinary_state_rank).fetchall()
+    return scale_data(rows)
+
+def get_state_vawa_data():
+    print(db_queries.vawa_state_rank)
+    rows = db.cursor.execute(db_queries.vawa_state_rank).fetchall()
+    return scale_data(rows)
+
+def get_state_hate_data():
+    print(db_queries.hate_state_rank)
+    rows = db.cursor.execute(db_queries.hate_state_rank).fetchall()
+    return scale_data(rows)
+
 def get_state_student_data():
     print(db_queries.state_student_rank)
     rows = db.cursor.execute(db_queries.state_student_rank).fetchall()
