@@ -204,7 +204,8 @@ compare_university_hate = """select sum(MURDER), sum(VANDALISM), sum(FORCIBLE_SE
 						from hate, (select ID from institute where name = '{inst_name}') inst 
 						where hate.INSTITUTEID = inst.ID and hate.year = {year}"""
 
-arrest_institute_rank = """select *
+arrest_institute_rank = """
+select *
 from (select name, rank() over (order by arrest_count desc), arrest_count
         from (select institute.NAME, SUM(weapons + drugs + liquor) as arrest_count
                 from arrest,institute where arrest.INSTITUTEID = institute.ID
@@ -213,9 +214,39 @@ from (select name, rank() over (order by arrest_count desc), arrest_count
     )
 where rownum <= 50"""
 
-arrest_state_rank = """select state, rank() over (order by arrest_count desc), arrest_count
+criminal_institute_rank = """
+select *
+from (select name, rank() over (order by criminal_count desc), criminal_count
+        from (select institute.NAME, SUM(MURDER + NEGLIGENT_MANSLAUGHTER + FORCIBLE_SEX
+                                        + NONFORCIBLE_SEX + ROBBERY + AGGRAVATED_ASSAULTS 
+                                        + BURGLARY + MOTOR_VEHICLE_THEFT + ARSON
+                                        ) as criminal_count
+                from criminal, institute where criminal.INSTITUTEID = institute.ID
+                group by institute.name
+            )
+    )
+where rownum <= 50"""
+
+arrest_state_rank = """
+select state, rank() over (order by arrest_count desc), arrest_count
         from (select institute.STATE, SUM(weapons + drugs + liquor) as arrest_count
                 from arrest,institute where arrest.INSTITUTEID = institute.ID and state is not null
                 group by institute.STATE
             )"""
 
+crime_state_rank = """
+select state, rank() over (order by count desc), count
+        from (select institute.STATE, SUM(MURDER + NEGLIGENT_MANSLAUGHTER + FORCIBLE_SEX
+                                        + NONFORCIBLE_SEX + ROBBERY + AGGRAVATED_ASSAULTS 
+                                        + BURGLARY + MOTOR_VEHICLE_THEFT + ARSON) as count
+                from criminal,institute where criminal.INSTITUTEID = institute.ID and state is not null
+                group by institute.STATE
+            )"""
+
+state_student_rank = """
+select state, rank() over (order by student_count desc), student_count
+from (select state, sum(TOTAL) as student_count
+      from institute
+      where state is not null
+      group by state)
+"""

@@ -1,30 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container" align="center">
-        <ul class="list-inline">
-            <li>
-                <label>Unsafe</label>
-            </li>
-            <li>
-                <div class="foo .db-inline" style="float:left;width:40px;height:20px;margin:5px;border:1px solid rgba(0, 0, 0, .2);background:{{color_codes['max']}}">
-                </div>
-            </li>
+    <form class="form-group" id="crimeform" action="{{ url_for('geographical') }}" method="post">
+            <ul class="form-style-1">
+                <li id = "category" >
+                    <label>Stat Type:</label>
+                    <select id="catdd" name="cat_type" class="field-select" >
+                        <option value="crime">Crime</option>
+                        <option value="student" selected="selected">Student Count</option>
+                        <!-- <option value="safety">Safety</option> -->
+                    </select>
+                </li>
+                <li id = "crime" class="line-block">
+                    <label>Criminal Offence Type:</label>
+                    <select name="crime_type_input" class="field-select" >
+                        <option value="arrest" selected="selected">Arrest</option>
+                        <option value="crime">Criminal</option>
+                    </select>
+                </li>
+
+                <li>
+                    <input type="submit" value="Submit" />
+                </li>
+
+            </ul>
+        </form>
+    {% if result %}
+        <div class="container" align="center">
+            <ul class="list-inline">
+                <li>
+                    <label>{{max_label}}</label>
+                </li>
+                <li>
+                    <div class="foo .db-inline" style="float:left;width:40px;height:20px;margin:5px;border:1px solid rgba(0, 0, 0, .2);background:{{color_codes['max']}}">
+                    </div>
+                </li>
+                
+            </ul>
+            <ul class="list-inline">
+                <li>
+                    <label>{{min_label}}</label>
+                </li>
+                <li>
+                    <div class="foo" style="float:left;width:40px;height:20px;margin:5px;border:1px solid rgba(0, 0, 0, .2);background:{{color_codes['min']}}">
+                    </div>
+                </li>
+            </ul>
             
-        </ul>
-        <ul class="list-inline">
-            <li>
-                <label>Safety</label>
-            </li>
-            <li>
-                <div class="foo" style="float:left;width:40px;height:20px;margin:5px;border:1px solid rgba(0, 0, 0, .2);background:{{color_codes['min']}}">
-                </div>
-            </li>
-        </ul>
-        
-        <center><div id="tooltip"></div></center><!-- div to hold tooltip. -->
-        <center><svg width="960" height="600" id="statesvg"></svg></center> <!-- svg to hold the map. -->
-    </div>
+            <center><div id="tooltip"></div></center><!-- div to hold tooltip. -->
+            <center><svg width="960" height="600" id="statesvg"></svg></center> <!-- svg to hold the map. -->
+        </div>
+    {% endif %}
     <script type="text/javascript" src="{{ url_for('static', filename='uStates.js') }}"></script> <!-- creates uStates. -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script>
@@ -52,5 +78,20 @@
         uStates.draw("#statesvg", sampleData, tooltipHtml);
 
         d3.select(self.frameElement).style("height", "600px");
+
+        $(document).ready(function() {
+
+            $('#crime').hide();
+
+            $('#catdd').change(function() {
+                var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
+                console.log(selectedId);
+                if (selectedId == 'crime')
+                    $('.line-block').hide().filter('#' + selectedId).show();
+                else
+                    $('.line-block').hide();
+            });
+
+        });
     </script>
 {% endblock %}

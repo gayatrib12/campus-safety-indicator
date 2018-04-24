@@ -73,7 +73,7 @@ def get_arrest_state_rank():
     rows = db.cursor.execute(db_queries.arrest_state_rank).fetchall()
     return [{"element": states[row[0]], "rank": row[1], "count": row[2]}for row in rows if states.get(row[0])]
 
-def get_state_geographical_data():
+def get_state_arrest_data():
     rows = db.cursor.execute(db_queries.arrest_state_rank).fetchall()
     # TODO:- convert crime count back to row[2]
     in_range_result = {}
@@ -99,5 +99,35 @@ def get_state_geographical_data():
 
     return in_range_result, actual_count
 
-def scale_value_in_range(max, min, value, new_range_max=100, new_range_min=0):
-    pass
+def get_state_crime_data():
+    print(db_queries.crime_state_rank)
+    rows = db.cursor.execute(db_queries.crime_state_rank).fetchall()
+    return scale_data(rows)
+
+def get_state_student_data():
+    print(db_queries.state_student_rank)
+    rows = db.cursor.execute(db_queries.state_student_rank).fetchall()
+    return scale_data(rows)
+
+def scale_data(rows):
+    in_range_result = {}
+    actual_count = {}
+    # get min max values:
+    max_count = min_count = rows[0][2]
+    # added logic to get min and max to convert the range into 0,100
+    for row in rows:
+        if row[2] > max_count:
+            max_count = row[2]
+        if row[2] < min_count:
+            min_count = row[2]
+
+    for row in rows:
+        if row[0] in map_state_list:
+            in_range_result.update({row[0]: scale_value_in_range(max_count, min_count, row[2])})
+            actual_count.update({row[0]: row[2]})
+
+    return in_range_result, actual_count
+
+def scale_value_in_range(max_count, min_count, value, new_range_max=100, new_range_min=0):
+    computed_value = ((value - min_count) / (max_count - min_count)) * (new_range_max - new_range_min) + new_range_min
+    return math.ceil(computed_value)
