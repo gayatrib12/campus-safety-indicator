@@ -6,28 +6,46 @@
                 <li id = "category" >
                     <label>Stat Type:</label>
                     <select id="catdd" name="cat_type" class="field-select" >
-                        <option value="crime">Crime</option>
-                        <option value="student" selected="selected">Student Count</option>
-                        <option value="sector">Control of University</option>
+                        {% for type in stat_type %}
+                            {% if type.lower() == 'student count' %}
+                                <option value="student">{{type}}</option>
+                            {% elif type.lower() == 'control of university' %}
+                                <option value="sector">{{type}}</option>
+                            {% else %}
+                                <option value="{{type.lower()}}">{{type}}</option>
+                            {% endif %}
+                        {% endfor %}
                         <!-- <option value="safety">Safety</option> -->
                     </select>
                 </li>
                 <li id = "crime" class="line-block">
                     <label>Criminal Offence Type:</label>
                     <select name="crime_type_input" class="field-select" >
-                        <option value="arrest" selected="selected">Arrest</option>
+                        {% for crime in crime_type %}
+                            <option value="{{crime.lower()}}">{{crime}}</option>
+                        {% endfor %}
+                        <!-- <option value="arrest" selected="selected">Arrest</option>
                         <option value="crime">Criminal</option>
                         <option value="disciplinary">Disciplinary</option>
                         <option value="hate">Hate</option>
-                        <option value="vawa">Vawa</option>
+                        <option value="vawa">Vawa</option> -->
                     </select>
                 </li>
                 <li id = "sector" class="line-block">
                     <label>Control of University:</label>
                     <select name="institute_sector" class="field-select" >
-                        <option value="1,4,7" selected="selected">Public</option>
+                        {% for type in sector_type %}
+                            {% if type.lower() == 'public' %}
+                                <option value="1,4,7">{{type}}</option>
+                            {% elif type.lower() == 'private non-profit' %}
+                                <option value="2,5,8">{{type}}</option>
+                            {% else %}
+                                <option value="3,6,9">{{type}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        <!-- <option value="1,4,7" selected="selected">Public</option>
                         <option value="2,5,8">Private non-profit</option>
-                        <option value="3,6,9">Private for-profit</option>
+                        <option value="3,6,9">Private for-profit</option> -->
                     </select>
                 </li>
 
@@ -93,8 +111,15 @@
 
         $(document).ready(function() {
 
-            $('#crime').hide();
+            var category = $('#catdd').find("option:first-child").val().toLowerCase();
+            console.log(category);
             $('#sector').hide();
+            if (category != 'crime') {
+                $('#crime').hide();
+                if (category == 'sector') {
+                    $('#sector').show();
+                };
+            };
 
             $('#catdd').change(function() {
                 var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();

@@ -258,6 +258,9 @@ def ranking():
 
 @app.route('/geographical', methods=['GET', 'POST'])
 def geographical():
+    stat_type = ['Crime', 'Student Count', 'Control of University']
+    crime_type = ['Arrest', 'Crime', 'Disciplinary', 'Hate', 'Vawa']
+    sector_type = ['Public', 'Private non-profit', 'Private for-profit']
     color_codes = {
         'max': '#800026',
         'min': '#ffffcc'
@@ -271,11 +274,15 @@ def geographical():
         category_type = request.form['cat_type']
         if category_type == "crime":
             category_type = request.form['crime_type_input']
+            crime_type.remove(category_type.title())
+            crime_type.insert(0, category_type.title())
             max_label = 'Most disturbed'
             min_label = 'Least disturbed'
             func = getattr(geo, f"get_state_{category_type}_data")
             result, actual_count = func()
         elif category_type == 'student':
+            stat_type.remove('Student Count')
+            stat_type.insert(0, 'Student Count')
             color_codes['max'] = '#004cd1'
             color_codes['min'] = '#d9e7fe'
             max_label = 'Most students'
@@ -283,15 +290,25 @@ def geographical():
             func = getattr(geo, f"get_state_{category_type}_data")
             result, actual_count = func()
         elif category_type == 'sector':
+            stat_type.remove('Control of University')
+            stat_type.insert(0, 'Control of University')
             color_codes['max'] = '#009302'
             color_codes['min'] = '#ddffde'
             max_label = "Most Universities"
             min_label = "Least Universities"
             sector = request.form['institute_sector']
+            if sector == '1,4,7':
+                sector_to_modify = 'Public'
+            elif sector == '2,5,8':
+                sector_to_modify = 'Private non-profit'
+            else:
+                sector_to_modify = 'Private for-profit'
+            sector_type.remove(sector_to_modify)
+            sector_type.insert(0, sector_to_modify)
             func = getattr(geo, f"get_state_{category_type}_data")
             result, actual_count = func(sector)
         print(f"result: {len(result)} {result}")
-    return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count, color_codes=color_codes, result=result, max_label=max_label, min_label=min_label)
+    return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count, color_codes=color_codes, result=result, max_label=max_label, min_label=min_label, crime_type=crime_type, stat_type=stat_type, sector_type=sector_type)
 
 @app.route('/tuple_count', methods=['POST'])
 def tuple_count():

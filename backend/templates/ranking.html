@@ -56,7 +56,11 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#category').hide();
+            var category = $('#catdd').find("option:first-child").val().toLowerCase();
+            console.log(category);
+            if (category != 'university category') {
+                $('#category').hide();
+            };
 
             $('#catdd').change(function() {
                 var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
