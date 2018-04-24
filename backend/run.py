@@ -273,18 +273,23 @@ def geographical():
             category_type = request.form['crime_type_input']
             max_label = 'Most disturbed'
             min_label = 'Least disturbed'
+            func = getattr(geo, f"get_state_{category_type}_data")
+            result, actual_count = func()
         elif category_type == 'student':
             color_codes['max'] = '#004cd1'
             color_codes['min'] = '#d9e7fe'
             max_label = 'Most students'
             min_label = 'Least students'
-        elif category_type == 'safety':
-            color_codes['max'] = '#ddffde'# '#b1ffb2'# '#94ff95'#'#d9feda'
-            color_codes['min'] = '#009302' #'#1d9b1f'#'#00c803'
-            max_label = "Least safe"
-            min_label = "Most safe"
-        func = getattr(geo, f"get_state_{category_type}_data")
-        result, actual_count = func()
+            func = getattr(geo, f"get_state_{category_type}_data")
+            result, actual_count = func()
+        elif category_type == 'sector':
+            color_codes['max'] = '#009302'
+            color_codes['min'] = '#ddffde'
+            max_label = "Most Universities"
+            min_label = "Least Universities"
+            sector = request.form['institute_sector']
+            func = getattr(geo, f"get_state_{category_type}_data")
+            result, actual_count = func(sector)
         print(f"result: {len(result)} {result}")
     return render_template("geographical.html", title="Geographical Stats", in_range_result=result, actual_count=actual_count, color_codes=color_codes, result=result, max_label=max_label, min_label=min_label)
 

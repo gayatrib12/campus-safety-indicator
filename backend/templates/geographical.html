@@ -8,6 +8,7 @@
                     <select id="catdd" name="cat_type" class="field-select" >
                         <option value="crime">Crime</option>
                         <option value="student" selected="selected">Student Count</option>
+                        <option value="sector">Control of University</option>
                         <!-- <option value="safety">Safety</option> -->
                     </select>
                 </li>
@@ -19,6 +20,14 @@
                         <option value="disciplinary">Disciplinary</option>
                         <option value="hate">Hate</option>
                         <option value="vawa">Vawa</option>
+                    </select>
+                </li>
+                <li id = "sector" class="line-block">
+                    <label>Control of University:</label>
+                    <select name="institute_sector" class="field-select" >
+                        <option value="1,4,7" selected="selected">Public</option>
+                        <option value="2,5,8">Private non-profit</option>
+                        <option value="3,6,9">Private for-profit</option>
                     </select>
                 </li>
 
@@ -85,11 +94,12 @@
         $(document).ready(function() {
 
             $('#crime').hide();
+            $('#sector').hide();
 
             $('#catdd').change(function() {
                 var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
                 console.log(selectedId);
-                if (selectedId == 'crime')
+                if (selectedId == 'crime' || selectedId == 'sector')
                     $('.line-block').hide().filter('#' + selectedId).show();
                 else
                     $('.line-block').hide();

@@ -403,7 +403,13 @@ from (select state, sum(TOTAL) as student_count
       where state is not null
       group by state)"""
 
-
+state_sector_rank = """
+select state, rank() over (order by count desc), count
+from (select state, count(*) as count
+      from institute
+      where state is not null and sectorid in ({sector})
+      group by state)
+"""
 
 total_tuple_count = """
 select *

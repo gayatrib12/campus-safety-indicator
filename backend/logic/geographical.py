@@ -124,6 +124,11 @@ def get_state_student_data():
     rows = db.cursor.execute(db_queries.state_student_rank).fetchall()
     return scale_data(rows)
 
+def get_state_sector_data(sector):
+    print(db_queries.state_sector_rank.format(sector=sector))
+    rows = db.cursor.execute(db_queries.state_sector_rank.format(sector=sector)).fetchall()
+    return scale_data(rows)
+
 def scale_data(rows):
     in_range_result = {}
     actual_count = {}
