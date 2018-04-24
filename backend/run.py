@@ -315,5 +315,9 @@ def tuple_count():
     data = {"total_count": ind.get_total_tuple_count()}
     return jsonify(data)
 
+@app.route('/er', methods=['GET'])
+def er():
+    return render_template("er.html")
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
