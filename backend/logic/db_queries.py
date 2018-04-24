@@ -227,6 +227,42 @@ from (select name, rank() over (order by criminal_count desc), criminal_count
     )
 where rownum <= 50"""
 
+vawa_institute_rank = """
+select *
+from (select name, rank() over (order by vawa_count desc), vawa_count
+        from (select institute.NAME, SUM(DOMESTIC_VIOLENCE+DATING_VIOLENCE+STALKING) as vawa_count
+                from vawa, institute where vawa.INSTITUTEID = institute.ID
+                group by institute.name
+            )
+    )
+where rownum <= 50
+"""
+
+disciplinary_institute_rank = """
+select *
+from (select name, rank() over (order by diciplinary_count desc), diciplinary_count
+        from (select institute.NAME, SUM(WEAPONS+DRUGS+LIQUOR) as diciplinary_count
+                from disciplinary_action, institute where disciplinary_action.INSTITUTEID = institute.ID
+                group by institute.name
+            )
+    )
+where rownum <= 50
+"""
+
+hate_institute_rank = """
+select *
+from (select name, rank() over (order by hate_count desc), hate_count
+        from (select institute.NAME, SUM(MURDER + FORCIBLE_SEX + NONFORCIBLE_SEX
+                                        + ROBBERY + AGGRAVATED_ASSAULTS + BURGLARY
+                                        + MOTOR_VEHICLE_THEFT + ARSON + VANDALISM
+                                        + INTIMIDATION + SIMPLE_ASSAULT + LARCENY) as hate_count
+                from hate, institute where hate.INSTITUTEID = institute.ID
+                group by institute.name
+            )
+    )
+where rownum <= 50
+"""
+
 arrest_state_rank = """
 select state, rank() over (order by arrest_count desc), arrest_count
         from (select institute.STATE, SUM(weapons + drugs + liquor) as arrest_count
@@ -242,6 +278,33 @@ select state, rank() over (order by count desc), count
                 from criminal,institute where criminal.INSTITUTEID = institute.ID and state is not null
                 group by institute.STATE
             )"""
+
+vawa_state_rank = """
+select state, rank() over (order by count desc), count
+        from (select institute.STATE, SUM(DOMESTIC_VIOLENCE+DATING_VIOLENCE+STALKING) as count
+                from vawa,institute where vawa.INSTITUTEID = institute.ID and state is not null
+                group by institute.STATE
+            )
+"""
+
+disciplinary_state_rank = """
+select state, rank() over (order by count desc), count
+        from (select institute.STATE, SUM(weapons + drugs + liquor) as count
+                from disciplinary_action,institute where disciplinary_action.INSTITUTEID = institute.ID and state is not null
+                group by institute.STATE
+            )
+"""
+
+hate_state_rank = """
+select state, rank() over (order by count desc), count
+        from (select institute.STATE, SUM(MURDER + FORCIBLE_SEX + NONFORCIBLE_SEX
+                                        + ROBBERY + AGGRAVATED_ASSAULTS + BURGLARY
+                                        + MOTOR_VEHICLE_THEFT + ARSON + VANDALISM
+                                        + INTIMIDATION + SIMPLE_ASSAULT + LARCENY) as count
+                from hate,institute where hate.INSTITUTEID = institute.ID and state is not null
+                group by institute.STATE
+            )
+"""
 
 state_student_rank = """
 select state, rank() over (order by student_count desc), student_count

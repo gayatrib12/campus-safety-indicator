@@ -20,14 +20,6 @@
                 {% endfor %}
             </select>
         </li>
-        <!-- <li>
-            <label>Year:</label>
-            <select name="year" class="field-select">
-                {% for year in years %}
-                    <option value="{{year}}">{{year}}</option>
-                {% endfor %}
-            </select>
-        </li> -->
         <li>
             <input type="submit" value="Submit" />
         </li>
@@ -36,7 +28,7 @@
 {% if result %}
         <hr>
         <div class="container" align="center">
-            <h3>TOP 50 Rankings Un-safe {{rank_element}}:</h3>
+            <h3>TOP 50 Ranked Unsafe {{rank_element}}:</h3>
             <table>
                 <tr>
                     <th>Rank</th>
@@ -53,4 +45,20 @@
             </table>
         </div>
     {% endif %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#crime').hide();
+
+            $('#catdd').change(function() {
+                var selectedId= $(this).find(':selected').val().replace(/\s/g, "").toLowerCase();
+                console.log(selectedId);
+                if (selectedId == 'crime')
+                    $('.line-block').hide().filter('#' + selectedId).show();
+                else
+                    $('.line-block').hide();
+            });
+
+        });
+    </script>
 {% endblock %}

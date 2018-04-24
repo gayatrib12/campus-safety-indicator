@@ -223,7 +223,7 @@ def compare():
 @app.route('/ranking', methods=['GET', 'POST'])
 def ranking():
     rank_types = ['University', 'State']
-    trends = ['All_Crimes', 'Arrest', 'Crime', 'Disciplinary', 'Hate', 'Vawa']
+    trends = ['Arrest', 'Crime', 'Disciplinary', 'Hate', 'Vawa']
     years = [2013, 2014, 2015]
     result = []
     year = None
@@ -232,12 +232,17 @@ def ranking():
         form_data = request.form
         rank_type = form_data['rank_type']
         trend_type = form_data['trend_type']
+        rank_types.remove(rank_type)
+        rank_types.insert(0, rank_type)
+        trends.remove(trend_type)
+        trends.insert(0, trend_type)
         #year = form_data['year']
         print(f"rank_type: {rank_type}")
         if rank_type == "University":
-            result = rk.get_arrest_institute_ranks_for_year()
+            func = getattr(rk, f"get_{trend_type.lower()}_institute_ranks")
         else:
-            result = geo.get_arrest_state_rank()
+            func = getattr(rk, f"get_{trend_type.lower()}_state_ranks")
+        result = func()
         print(f"result of arrest rank query: {result}")
     return render_template("ranking.html", title="Ranking Stats", rank_type=rank_types, trends=trends, years=years, result=result, year_in_consideration=year, rank_element=rank_type)
 
