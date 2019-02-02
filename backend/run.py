@@ -1,10 +1,12 @@
+import flask
+#import backend
 from flask import Flask, Response, request, render_template, redirect, jsonify
-from backend.logic import institute as it
-from backend.logic import rankings as rk
-from backend.logic import geographical as geo
-from backend.logic import trends as trnds
-from backend.logic import compare as comp
-from backend.logic import index as ind
+# from backend.logic import institute as it
+# from backend.logic import rankings as rk
+# from backend.logic import geographical as geo
+# from backend.logic import trends as trnds
+# from backend.logic import compare as comp
+# from backend.logic import index as ind
 
 app = Flask('Campus Safety Indicator')
 
